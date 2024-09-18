@@ -26,3 +26,11 @@ src/
     - evaluaciones/
     - gestion-usuario/
 ```
+
+## Environment variables
+
+En la raiz del proyecto crear 2 archivos: `.env.development` y `.env.production` con las siguientes variables:
+
+```bash
+VITE_API_URL=http://localhost:3000/api
+```
