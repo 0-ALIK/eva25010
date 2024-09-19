@@ -1,4 +1,5 @@
 import { Usuario } from "../../models/usuario";
+import { useAuthStore } from "../../stores/gestion-usuario/auth-store";
 import { AxiosService } from "../axios";
 
 interface AuthResponse {
@@ -10,26 +11,31 @@ export class AuthService {
 
     private module: string = '/gestion-usuario';
     
-    public async login(email: string, password: string): Promise<AuthResponse | undefined> {
+    public async login(email: string, password: string): Promise<AuthResponse | null> {
         try {
-            const response = await AxiosService.http.post(this.module+'/auth/login', {
+            const response = await AxiosService.http.post<AuthResponse>(this.module+'/auth/login', {
                 email,
                 password
             });
-            return response.data as AuthResponse;
+
+            const authStore = useAuthStore();
+            authStore.setToken(response.data.token);
+            authStore.setUsuario(response.data.usuario);
+            
+            return response.data;
         } catch (error) {
             console.error(error);
-            return undefined;
+            return null;
         }
     }
 
-    public async register(usuario: Usuario): Promise<AuthResponse | undefined> {
+    public async register(usuario: Usuario): Promise<AuthResponse | null> {
         try {
-            const response = await AxiosService.http.post(this.module+'/auth/register', usuario);
-            return response.data as AuthResponse;
+            const response = await AxiosService.http.post<AuthResponse>(this.module+'/auth/register', usuario);
+            return response.data;
         } catch (error) {
             console.error(error);
-            return undefined;
+            return null;
         }
     }
 }
