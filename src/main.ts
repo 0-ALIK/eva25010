@@ -5,7 +5,11 @@ import 'primeicons/primeicons.css';
 import PrimeVue from 'primevue/config';
 import { definePreset } from '@primevue/themes';
 import Aura from '@primevue/themes/aura';
+import ToastService from 'primevue/toastservice';
 import router from './router';
+import { createPinia } from 'pinia';
+
+const pinia = createPinia();
 
 const preset = definePreset(Aura, {
     semantic: {
@@ -46,4 +50,6 @@ createApp(App)
         ripple: true,
     })
     .use(router)
+    .use(pinia)
+    .use(ToastService)
     .mount('#app');
