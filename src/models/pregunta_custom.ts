@@ -1,13 +1,11 @@
-import { Categoria } from "./categoria";
-import { Software } from "./software";
 import { RespuestaCustom } from "./respuesta_custom";
+import { SoftwareCategoria } from "./software_categoria";
 
 export interface PreguntaCustom {
     id: number;
     descripcion: string;    
-    categoria: Categoria;
-    software: Software;
     respuestas: RespuestaCustom[];
+    softwareCategoria: SoftwareCategoria;
     createdAt: Date;
     updatedAt: Date;
 }
