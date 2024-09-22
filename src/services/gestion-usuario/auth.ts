@@ -31,10 +31,21 @@ export class AuthService {
 
     public async register(usuario: Usuario): Promise<AuthResponse | null> {
         try {
-            const response = await AxiosService.http.post<AuthResponse>(this.module+'/auth/register', usuario);
-            return response.data;
+            const response = await AxiosService.http.post<AuthResponse>(this.module+'/auth/register', usuario, {
+                validateStatus: function (status) {
+                    return status < 500; 
+                }
+            });
+            
+            console.log('Éxito');
+
+            if (response.status === 400) {
+                console.error('Error de estado:', response.data);
+            }
+    
+            return response.data;        
         } catch (error) {
-            console.error(error);
+            console.error('este es el error:', error);
             return null;
         }
     }

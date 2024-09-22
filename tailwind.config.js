@@ -14,7 +14,7 @@ export default {
         'inner': '4rem',
       },
       padding:{
-        'space': '3rem'
+        'space': '2rem'
       }, 
     },
   },
