@@ -11,7 +11,7 @@
                             <div class="flex flex-col">
                                 <IconField>
                                     <InputIcon class="pi pi-user text-primary-500" style="color: var(--p-Sprimary-500)" />
-                                    <InputText v-model="usuario.nombre" placeholder="Search" type="text" />
+                                    <InputText v-model="usuario.nombre" placeholder="Nombre" type="text" />
                                 </IconField>
                             </div>
                         </article>
@@ -21,7 +21,7 @@
                             <div class="flex flex-col">
                                 <IconField>
                                     <InputIcon class="pi pi-user text-primary-500" style="color: var(--p-Sprimary-500)" />
-                                    <InputText v-model="usuario.apellido"  placeholder="Search" type="text" />
+                                    <InputText v-model="usuario.apellido"  placeholder="Apellido" type="text" />
                                 </IconField>
                             </div>
                         </article>
@@ -31,7 +31,7 @@
                             <div class="flex flex-col gap-2">
                                 <IconField>
                                     <InputIcon class="pi pi-at text-primary-500" style="color: var(--p-Sprimary-500)" />
-                                    <InputText v-model="usuario.correo"  placeholder="Search" type="email" />
+                                    <InputText v-model="usuario.correo"  placeholder="correo@correo.com" type="email" />
                                 </IconField>
                             </div>
                         </article> 
@@ -44,12 +44,12 @@
                             <div class="flex flex-col">
                                 <IconField>
                                     <InputIcon class="pi pi-lock text-primary-500" style="color: var(--p-Sprimary-500)" />
-                                    <InputText v-model="usuario.password" placeholder="Search" type="password" />
+                                    <InputText v-model="usuario.password" placeholder="*********" type="password" />
                                 </IconField>
                                 <ul class="mx-6">
                                     <li class="list-disc"><small id="password-help" class="text-xs decoration-dotted">Convinación de mayúsculas y minúsculas.</small> </li>
                                     <li class="list-disc"><small id="password-help" class="text-xs decoration-dotted">Algún número.</small> </li>
-                                    <li class="list-disc"><small id="password-help" class="text-xs decoration-dotted">de 8 a 12 caracteres.</small> </li>
+                                    <li class="list-disc"><small id="password-help" class="text-xs decoration-dotted">de 6 a 12 caracteres.</small> </li>
                                 </ul>
                             </div>
                         </article>
@@ -59,7 +59,7 @@
                             <div class="flex flex-col gap-2">
                                 <IconField>
                                     <InputIcon class="pi pi-lock text-primary-500" style="color: var(--p-Sprimary-500)" />
-                                    <InputText v-model="confirmPassword" invalid="confirmPassword" placeholder="Search" type="password" />
+                                    <InputText v-model="confirmPassword" invalid="confirmPassword" placeholder="*********" type="password" />
                                 </IconField>
                             </div>
 
@@ -110,7 +110,6 @@ const usuario = ref<Usuario>({
     }
 
     async function enviarDatos() {
-        console.log(usuario.value); 
         const toastStore = useToastStore();
         confirmPassword.value = usuario.value.password;
         try {
