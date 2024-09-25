@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-surface-800 p-4 rounded-md w-20 h-full flex flex-col justify-between items-center">
+    <div class="bg-surface-900 p-4 rounded-md w-20 h-full flex flex-col justify-between items-center">
         <div class="flex flex-col justify-between items-center gap-8">
             <!-- Logo -->
             <figure>
@@ -11,6 +11,12 @@
                 <div>
                     <RouterLink to="/">
                         <Button icon="pi pi-home" :text="route.path !== '/'" aria-label="Filter"/>  
+                    </RouterLink>
+                </div>
+
+                <div>
+                    <RouterLink to="/crear">
+                        <Button icon="pi pi-pen-to-square" :text="route.path !== '/crear'" aria-label="Filter"/>  
                     </RouterLink>
                 </div>
             

@@ -26,7 +26,12 @@ const router = createRouter({
                             component: () => import('./components/gestion-usuario/CardEvaluaciones.vue'),
 
                         }
-                ]
+                    ]
+                },
+
+                {
+                    path: "crear",
+                    component: () => import("./pages/gestion-publicaciones/CrearEditar.vue")
                 }
             ]
         },

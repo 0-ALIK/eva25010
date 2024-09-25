@@ -38,6 +38,7 @@ const preset = definePreset(Aura, {
             700: '{zinc.700}',
             800: '{zinc.800}',
             900: '{zinc.900}',
+            950: '{zinc.950}'
         },
 
         colorScheme: {
