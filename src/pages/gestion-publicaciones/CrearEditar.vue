@@ -9,6 +9,7 @@
                     <Step value="2">Categorias</Step>
                     <Step value="3">Preguntas</Step>
                 </StepList>
+
                 <StepPanels>
                     <StepPanel v-slot="{ activateCallback }" value="1" class="p-4 rounded-md">
                         <CrearEditarDatos @siguiente="activateCallback('2')"/>
@@ -17,7 +18,7 @@
                         <CrearEditarCategorias />
                         <Button label="Back" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('1')" />
                         <Button label="Next" icon="pi pi-arrow-right" iconPos="right" @click="activateCallback('3')" />
-                        
+
                     </StepPanel>
                     <StepPanel v-slot="{ activateCallback }" value="3" class="p-4 rounded-md">
                         
