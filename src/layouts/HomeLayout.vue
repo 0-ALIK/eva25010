@@ -1,7 +1,7 @@
 <template>
     <div class="p-4 h-screen flex">
         <Sidebar />
-        <div class="mx-8">
+        <div class="mx-outer">
             <RouterView />
         </div>
     </div>

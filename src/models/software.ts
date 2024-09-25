@@ -19,4 +19,5 @@ export interface Software {
     imagenesPreview: ImagenPreview[];
     createdAt: Date;
     updatedAt: Date;
+    enlace: String;
 }

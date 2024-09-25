@@ -5,7 +5,18 @@ export default {
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'main': 'url(/bg.jpg)',
+      },
+      margin:{
+        'outer': '6rem',
+        'inner': '4rem',
+      },
+      padding:{
+        'space': '2rem'
+      }, 
+    },
   },
   plugins: [require('tailwindcss-primeui')]
 }

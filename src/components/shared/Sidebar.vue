@@ -10,8 +10,7 @@
             <div class="flex flex-col justify-center gap-2">
                 <div>
                     <RouterLink to="/">
-                        <Button icon="pi pi-home" aria-label="Filter" v-if="route.path === '/'"/>  
-                        <Button icon="pi pi-home" text aria-label="Filter" v-if="route.path !== '/'"/>  
+                        <Button icon="pi pi-home" :text="route.path !== '/'" aria-label="Filter"/>  
                     </RouterLink>
                 </div>
             
