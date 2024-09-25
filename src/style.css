@@ -1,7 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap'); 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap'); 
 
 html {
     font-size: 14px;
@@ -12,13 +12,13 @@ html {
 }
 
 h1{
-    font-size: 3rem ;
+    font-size: 2.5rem ;
     line-height: 2.5rem;
     
 }
 
 h2{
-    font-size: 2.25rem; 
+    font-size: 2rem; 
     line-height: 2.5rem;
 }
 
@@ -28,7 +28,7 @@ h3{
 }
 
 h4{
-    font-size: 1.125rem;
+    font-size: 1rem;
     line-height: 1.75rem; 
 }
 

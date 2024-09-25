@@ -1,11 +1,12 @@
 <template>
-    <div class=" p-2 flex flex-col w-full  overflow-hidden">
+    <div class=" flex flex-col overflow-hidden">
 
-        <div class="flex p-1 justify-end flex-row-reverse gap-4 w-fit overflow-x-hidden">
-            <section class="flex flex-col gap-2 w-fit h-fit overflow-x-hidden">
+        <div class="flex justify-end flex-row-reverse gap-4 w-full overflow-x-hidden">
+            <section class="flex flex-col gap-2 w-full h-fit ">
                 <Tabs  value="/software">
-                    
-                    <TabList >
+                    <h1>Perfil de Usuario</h1>
+
+                    <TabList class="border border-surface-800 rounded-md px-1 bg-surface-900" >
                         <Tab value="/software"  @click="navigateTo('software')">Softwares</Tab>
                         <Tab value="/evaluaciones" @click="navigateTo('evaluaciones')">Historial de Evaluaciones</Tab>
                     </TabList>
@@ -23,7 +24,7 @@
                 <RouterView v-else></RouterView>
             </section>
 
-            <section class="bg-surface-800 rounded-lg border border-gray-700">
+            <section class="bg-surface-900 rounded-lg border border-surface-800">
                 <Perfil></Perfil>
                 
             </section>

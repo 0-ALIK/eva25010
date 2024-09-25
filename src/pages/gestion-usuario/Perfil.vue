@@ -1,6 +1,5 @@
 <template>
-    <div class="flex flex-col gap-6 mt-2 w-fit overflow-hidden">
-        <h1>Perfil de Usuario</h1>
+    <div class="bg-white h-full flex flex-col gap-6 mt-2 mx-outer w-fit overflow-hidden">
 
         <section class="">
             <PerfilLayout></PerfilLayout>

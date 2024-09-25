@@ -1,7 +1,7 @@
 <template>
     <div class="h-screen w-screen overflow-hidden bg-main bg-cover bg-no-repeat">
         <div class="flex justify-center align-middle items-center">
-            <form @submit.prevent="enviarDatos"  class="m-inner w-fit flex flex-col items-center p-space bg-gray-950/50 rounded-2xl border border-l-gray-500 border-t-gray-300 border-b-gray-800 border-r-gray-700 shadow-2xl backdrop-blur-sm ">
+            <form @submit.prevent="enviarDatos"  class="m-inner w-fit flex flex-col items-center p-space bg-gray-950/50 rounded-2xl border border-l-gray-500 border-t-gray-300 border-b-gray-900 border-r-gray-700 shadow-2xl backdrop-blur-sm ">
                 <h1 class=" pt-14 pb-4 pl-6 m-5 inline-block">Registro</h1>
                 <div class="flex p-space">
                     <section class="flex justify-between flex-col gap-4 px-space ">
@@ -59,20 +59,20 @@
                             <div class="flex flex-col gap-2">
                                 <IconField>
                                     <InputIcon class="pi pi-lock text-primary-500" style="color: var(--p-Sprimary-500)" />
-                                    <InputText v-model="confirmPassword" invalid="confirmPassword" placeholder="*********" type="password" />
+                                    <InputText v-model="usuario.confirmPassword" invalid="confirmPassword" placeholder="*********" type="password" />
                                 </IconField>
                             </div>
 
-                            <small v-if="confirmPassword=== usuario.password">Las contraseñas coinciden</small>
+                            <small v-if="usuario.confirmPassword=== usuario.password">Las contraseñas coinciden</small>
                             <small v-else>Las contraseñas no coinciden</small>
                         </article>
                     </section>
                 </div>
             
-                <Button :disabled="!validate()"  type="submit" v-bind="enviarDatos" icon="pi pi-chevron-right" class="text-white" label="Registrar"/>
+                <Button :disabled="usuario.password !== usuario.confirmPassword"  @click="enviarDatos" icon="pi pi-chevron-right" class="text-white" label="Registrar" />
             </form>
 
-            <article class="p-space gap-4 flex flex-col h-fit m-outer w-fit bg-gray-950/50 rounded-2xl border border-l-gray-500 border-t-gray-300 border-b-gray-800 border-r-gray-700 shadow-2xl backdrop-blur-sm ">
+            <article class="p-space gap-4 flex flex-col h-fit m-outer w-fit bg-gray-950/50 rounded-2xl border border-l-gray-500 border-t-gray-300 border-b-gray-900 border-r-gray-700 shadow-2xl backdrop-blur-sm ">
                 <h2>Bienvenido a EVA 25010</h2>
                 <p class="text-gray-400 text-xs">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde aliquam minus ipsam autem fugiat assumenda consectetur ab voluptatum, nulla laudantium provident dolore expedita. Corrupti eveniet voluptatibus possimus deserunt non ea.</p>
                 <small>¿Ya tienes cuenta? <a href="/login" class="text-primary-500 underline decoration-solid"> Iniciar sesión </a></small>
@@ -89,48 +89,65 @@ import Button from 'primevue/button';
 
 import { ref } from 'vue';
 import { AuthService } from '../../services/gestion-usuario/auth'
-import { Usuario } from '../../models/usuario';
 import { useToastStore } from '../../stores/shared/toast-store';
+import useVuelidate from '@vuelidate/core';
+import { alpha, email, maxLength, minLength, required, sameAs } from '@vuelidate/validators';
 
-const confirmPassword = ref(''); 
 
-const usuario = ref<Usuario>({
+const usuario = ref({
     nombre: '',
     apellido: '',
     correo: '',
     password: '',
-    });
+    confirmPassword: ''
+});
 
-    function validate() {
-        if (confirmPassword.value == usuario.value.password && usuario.value.nombre && usuario.value.apellido && usuario.value.correo && usuario.value.password) {
-            return true;
+const rules = {
+    nombre:{
+        required,
+        alpha
+    },
+    apellido:{
+        required,
+        alpha
+    },
+    correo:{
+        required,
+        email
+    },
+    password:{
+        required,
+        minLength: minLength(6),
+        maxLength: maxLength(12)
+    },
+    confirmPassword: { 
+        required, 
+        sameAsPassword: sameAs(usuario.value.password)
+    }  
+};
+
+const vuelidate = useVuelidate(rules, usuario);
+    
+async function enviarDatos() {
+    vuelidate.value.$touch();  
+    const toastStore = useToastStore();
+
+    if (vuelidate.value.$invalid) {
+        toastStore.showToast('error', 'Error', 'Faltan campos por completar')
+    }
+    
+    try {
+        const response = await new AuthService().register(usuario.value);
+        console.log('Respuesta del servidor:', response);
+        if (response && response.usuario) {
+            toastStore.showToast('success', 'Registro exitoso', 'Usuario registrado correctamente.');
+            
         } else {
-            return false;
+            toastStore.showToast('error', 'Error del servidor', 'No se pudo registrar el usuario.');
         }
+    } catch (error) {
+        console.error('Error al registrar:', error);
     }
 
-    async function enviarDatos() {
-        const toastStore = useToastStore();
-        confirmPassword.value = usuario.value.password;
-        try {
-            const response = await new AuthService().register(usuario.value);
-            console.log('Respuesta del servidor:', response);
-            console.log(response);
-
-            if (response) {
-                toastStore.showToast('success', 'Registro exitoso', 'Usuario registrado correctamente.');
-                console.log('Registro exitoso', response);
-                console.log(response);
-
-
-            } else {
-                toastStore.showToast('error', 'Error', 'No se pudo registrar el usuario.');
-                console.log('No se pudo registrar el usuario.', response);
-            }
-        } catch (error) {
-            console.error('Error al registrar:', error);
-        }
-    }
-
-
+}
 </script>

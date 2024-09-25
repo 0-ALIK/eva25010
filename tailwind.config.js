@@ -10,7 +10,7 @@ export default {
         'main': 'url(/bg.jpg)',
       },
       margin:{
-        'outer': '6rem',
+        'outer': '2rem',
         'inner': '4rem',
       },
       padding:{

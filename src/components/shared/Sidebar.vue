@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-surface-800 p-4 rounded-md w-20 h-full flex flex-col justify-between items-center">
+    <div class="bg-surface-900 p-4 rounded-md w-20 h-full flex flex-col justify-between items-center border border-surface-800">
         <div class="flex flex-col justify-between items-center gap-8">
             <!-- Logo -->
             <figure>
@@ -7,19 +7,12 @@
             </figure>
     
             <!-- Links -->
-            <div class="flex flex-col justify-center gap-2">
-                <div>
-                    <RouterLink to="/">
-                        <Button icon="pi pi-home" :text="route.path !== '/'" aria-label="Filter"/>  
+            <div class="flex flex-col justify-center gap-2" v-for="item in sideItems">
+                <div v-if="item.route">
+                    <RouterLink :to="item.route">
+                        <Button :icon="item.icon" :text="route.path !== item.route" :aria-label="item.label"/>  
                     </RouterLink>
                 </div>
-            
-                <!-- <div>
-                    <RouterLink to="/products">
-                        <Button icon="pi pi-home" aria-label="Filter" v-if="route.path === '/'"/>  
-                        <Button icon="pi pi-home" text aria-label="Filter" v-if="route.path !== '/'"/>  
-                    </RouterLink>
-                </div> -->
             </div>
         </div>
 
@@ -53,8 +46,17 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute();
 
-const menu = ref<typeof Menu | null>(null);
+const sideItems = ref([
 
+    { route: '/', label: 'Home', icon: 'pi pi-home' },
+    { route: '/perfil/software', label: 'software', icon: 'pi pi-code' },
+    { route: '/perfil/evaluaciones', label: 'evaluaciones', icon: 'pi pi-list' },
+    { route: '/Agregar', label: 'Agregar', icon: 'pi pi-file-plus' },
+    { route: '/Catalogo', label: 'Catalogo', icon: 'pi pi-list' },
+]);
+
+
+const menu = ref<typeof Menu | null>(null);
 const menuItems = ref<MenuItem[]>([
     {
         label: 'Auth',

@@ -1,5 +1,5 @@
 <template>
-    <div class="w-fit h-fit bg-surface-800 flex rounded-md p-3 gap-4 justify-start items-center border border-l-gray-500 border-t-gray-400 border-b-gray-800 border-r-gray-700 shadow-2xl ">
+    <div class="w-fit h-fit bg-surface-900 flex rounded-md p-3 gap-4 justify-start items-center border border-surface-800 shadow-2xl ">
         <div class="overflow-hidden rounded-lg ">
             <Image :src="portada" alt="Image" width="200px" preview class=" h-auto"/>
         </div>
