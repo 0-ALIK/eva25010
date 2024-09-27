@@ -11,16 +11,13 @@
                 </StepList>
 
                 <StepPanels>
-                    <StepPanel v-slot="{ activateCallback }" value="1" class="p-4 rounded-md">
+                    <StepPanel v-slot="{ activateCallback }" value="1" class="p-5 rounded-md">
                         <CrearEditarDatos @siguiente="activateCallback('2')"/>
                     </StepPanel>
-                    <StepPanel v-slot="{ activateCallback }" value="2" class="p-4 rounded-md">
-                        <CrearEditarCategorias />
-                        <Button label="Back" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('1')" />
-                        <Button label="Next" icon="pi pi-arrow-right" iconPos="right" @click="activateCallback('3')" />
-
+                    <StepPanel v-slot="{ activateCallback }" value="2" class="p-5 rounded-md">
+                        <CrearEditarCategorias @atras="activateCallback('1')" @siguiente="activateCallback('3')"/>
                     </StepPanel>
-                    <StepPanel v-slot="{ activateCallback }" value="3" class="p-4 rounded-md">
+                    <StepPanel v-slot="{ activateCallback }" value="3" class="p-5 rounded-md">
                         
                         <Button label="Back" severity="secondary" icon="pi pi-arrow-left" @click="activateCallback('2')" />
                         

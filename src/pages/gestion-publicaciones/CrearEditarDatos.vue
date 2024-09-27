@@ -3,27 +3,27 @@
         <div class="flex gap-4 justify-between">
             <form class="w-full flex flex-col gap-5">
                 <FloatLabel class="w-full">
-                    <InputText id="nombre" class="w-full"/>
+                    <InputText v-model="datos.nombre" id="nombre" class="w-full"/>
                     <label for="nombre">Nombre</label>
                 </FloatLabel>    
     
                 <FloatLabel class="w-full">
-                    <InputText id="version" class="w-full"/>
+                    <InputText v-model="datos.version" id="version" class="w-full"/>
                     <label for="version">Version</label>
                 </FloatLabel>    
     
                 <FloatLabel>
-                    <Textarea class="w-full h-28 resize-none"/>
+                    <Textarea v-model="datos.descripcion"  class="w-full h-28 resize-none"/>
                     <label>Descripcion</label>
                 </FloatLabel>
     
                 <div>
-                    <Select v-model="licencia" :options="licencias" optionLabel="nombre" placeholder="Licencia" class="w-full" />
+                    <Select v-model="datos.licencia" :options="licencias" :loading="licencias.length === 0" optionLabel="nombre" placeholder="Licencia" class="w-full" />
                 </div>
     
                 <div class="flex gap-2">
-                    <Select v-model="tipo" :options="tipos" optionLabel="nombre" placeholder="Tipo" class="w-full" />
-                    <Select v-model="subtipo" :options="subtipos" optionLabel="nombre" placeholder="Subtipo" class="w-full" />
+                    <Select v-model="tipo" :options="tipos" :loading="tipos.length === 0" optionLabel="nombre" placeholder="Tipo" @change="onTipoChange"  class="w-full" />
+                    <Select v-model="datos.subtipo" :options="subtipos" :loading="subtipos.length === 0" optionLabel="nombre" placeholder="Subtipo" class="w-full" />
                 </div>
     
                 <div>
@@ -49,7 +49,7 @@
         </div>
 
         <div class="flex justify-center mt-10">
-            <Button label="Siguiente" icon="pi pi-arrow-right" @click="onSiguienteClick" />
+            <Button label="Siguiente" icon="pi pi-arrow-right" @click="onSiguienteClick" :disabled="vuelidate.$invalid"/>
         </div>
             
     </div>
@@ -63,51 +63,53 @@ import Select from 'primevue/select';
 import MultiSelect from 'primevue/multiselect';
 import Button from 'primevue/button';
 import FileUpload from 'primevue/fileupload';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { maxLength, minLength, required } from '@vuelidate/validators';
+import useVuelidate from '@vuelidate/core';
+import { Licencia } from '../../models/licencia';
+import { TipoSoftware } from '../../models/tipo_software';
+import { SubtipoSoftware } from '../../models/subtipo_software';
+import { PublicacionesService } from '../../services/gestion-publicaciones/publicaciones';
 
 const emit = defineEmits<{
     (e: 'siguiente'): void;
 }>();
 
-const licencias = ref([
-    { nombre: 'Licencia 1', version: '1.0', descripcion: 'Descripcion 1' },
-    { nombre: 'Licencia 2', version: '2.0', descripcion: 'Descripcion 2' },
-    { nombre: 'Licencia 3', version: '3.0', descripcion: 'Descripcion 3' },
-    { nombre: 'Licencia 4', version: '4.0', descripcion: 'Descripcion 4' },
-    { nombre: 'Licencia 5', version: '5.0', descripcion: 'Descripcion 5' },
-]);
+const publicacionesService = new PublicacionesService();
 
-const tipos = ref([
-    { nombre: 'Tipo 1', version: '1.0', descripcion: 'Descripcion 1' },
-    { nombre: 'Tipo 2', version: '2.0', descripcion: 'Descripcion 2' },
-    { nombre: 'Tipo 3', version: '3.0', descripcion: 'Descripcion 3' },
-    { nombre: 'Tipo 4', version: '4.0', descripcion: 'Descripcion 4' },
-    { nombre: 'Tipo 5', version: '5.0', descripcion: 'Descripcion 5' },
-]);
+const licencias = ref<Licencia[]>([]);
 
-const subtipos = ref([
-    { nombre: 'Subtipo 1', version: '1.0', descripcion: 'Descripcion 1' },
-    { nombre: 'Subtipo 2', version: '2.0', descripcion: 'Descripcion 2' },
-    { nombre: 'Subtipo 3', version: '3.0', descripcion: 'Descripcion 3' },
-    { nombre: 'Subtipo 4', version: '4.0', descripcion: 'Descripcion 4' },
-    { nombre: 'Subtipo 5', version: '5.0', descripcion: 'Descripcion 5' },
-]);
+const tipos = ref<TipoSoftware[]>([]);
 
-const tecnologias = ref([
-    { nombre: 'Tecnologia 1', version: '1.0', descripcion: 'Descripcion 1' },
-    { nombre: 'Tecnologia 2', version: '2.0', descripcion: 'Descripcion 2' },
-    { nombre: 'Tecnologia 3', version: '3.0', descripcion: 'Descripcion 3' },
-    { nombre: 'Tecnologia 4', version: '4.0', descripcion: 'Descripcion 4' },
-    { nombre: 'Tecnologia 5', version: '5.0', descripcion: 'Descripcion 5' },
-]);
+const subtipos = ref<SubtipoSoftware[]>([]);
 
-const licencia = ref(null);
+const tecnologias = ref([]);
 
 const tipo = ref(null);
 
-const subtipo = ref(null);
-
 const tecnologiasSeleccionadas = ref([]);
+
+const portada = ref<File | null>(null);
+
+const imagenes = ref<File[]>([]);
+
+const datos = ref({
+    nombre: '',
+    version: '',
+    descripcion: '',
+    licencia: null,
+    subtipo: ''
+});
+
+const reglas = {
+    nombre: { required, minLength: minLength(2), maxLength: maxLength(100) },
+    version: { required, maxLength: maxLength(20) },
+    descripcion: { required },
+    licencia: { required },
+    subtipo: { required }
+};
+
+const vuelidate = useVuelidate(reglas, datos);
 
 function onSiguienteClick() {
     emit('siguiente');
@@ -116,4 +118,14 @@ function onSiguienteClick() {
 function onSelectPortada(event: any) {
     console.log(event);
 }
+
+async function onTipoChange(event: any) {
+    subtipos.value = [];
+    subtipos.value = await publicacionesService.obtenerSubtipos(event.value.id) || [];
+}
+
+onMounted(async () => {
+    licencias.value = await publicacionesService.obtenerLicencias() || [];
+    tipos.value = await publicacionesService.obtenerTipos() || [];
+});
 </script>
