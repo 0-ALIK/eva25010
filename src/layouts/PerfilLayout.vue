@@ -1,9 +1,8 @@
 <template>
-    <div class=" flex flex-col overflow-hidden">
-
-        <div class="flex justify-end flex-row-reverse gap-4 w-full overflow-x-hidden">
-            <section class="flex flex-col gap-2 w-full h-fit ">
-                <Tabs  value="/software">
+    <div class="flex flex-col h-screen">
+        <div class="flex justify-end flex-row-reverse gap-4 overflow-y-auto h-full">
+            <section class="flex flex-col gap-2 mt-2 ">
+                <Tabs  value="/software" class="w-fit">
                     <h1>Perfil de Usuario</h1>
 
                     <TabList class="border border-surface-800 rounded-md px-1 bg-surface-900" >
@@ -11,66 +10,101 @@
                         <Tab value="/evaluaciones" @click="navigateTo('evaluaciones')">Historial de Evaluaciones</Tab>
                     </TabList>
                 </Tabs>
+                <div v-if="loading">
+                  <LoadSkeleton/>
+                </div>
                 
-            <RouterView v-if="currentRoute === route && publicacion.length > 0" 
-                :portada="publicacion[0].portada" 
-                :nombre="publicacion[0].nombre" 
-                :descripcion="publicacion[0].descripcion" 
-                :version="publicacion[0].version" 
-                :nombreTipo="publicacion[0].subtipoSoftware" 
-                :createdAt="publicacion[0].createdAt" 
-                :enlace="publicacion[0].enlace" 
-                :nombreLicencia="publicacion[0].licencia" />
-                <RouterView v-else></RouterView>
+                <div v-else>
+                  <RouterView />
+                </div>
             </section>
 
-            <section class="bg-surface-900 rounded-lg border border-surface-800">
-                <Perfil></Perfil>
-                
+            <section class="">
+                <CardPerfil></CardPerfil>
             </section>
         </div>
     </div>
   </template>
-  
-  <script setup lang="ts">
+
+<script setup lang="ts">
 import Tabs from 'primevue/tabs';
 import TabList from 'primevue/tablist';
 import Tab from 'primevue/tab';
-import { useRoute } from 'vue-router';
-import { useRouter } from 'vue-router';
+import CardPerfil from '../components/gestion-usuario/CardPerfil.vue';
+import LoadSkeleton from '../components/shared/LoadSkeleton.vue';
+import { useRoute, useRouter } from 'vue-router';
+import { onMounted, ref, watch } from 'vue';
 import { PublicacionesService } from '../services/gestion-publicaciones/publicaciones';
-import { onMounted, ref } from 'vue';
 import { Software } from '../models/software';
-import Perfil from '../components/gestion-usuario/CardPerfil.vue';
+import { Evaluacion } from '../models/evaluacion';
+import { EvaluacionesService } from '../services/gestion-evaluaciones/evaluaciones';
+import { useToastStore } from '../stores/shared/toast-store';
 
-
-const route = useRoute();
-const currentRoute = route;
 const router = useRouter();
+const route = useRoute(); // Obtener la ruta actual
+const publicacion = ref<Software[]>([]);
+const evaluacion = ref<Evaluacion[]>([]);
+const toastStore = useToastStore();
+const loading = ref(true);
 
-const publicacion = ref<Software[]>([]); // Cambiar a un arreglo de Publicacion
+async function loadPublicaciones() {
+  try {
+    const publicacionesService = new PublicacionesService();
+    const response = await publicacionesService.getPublicacionesByUsuario();
 
-  function navigateTo(route: string) {
-    router.push(`/perfil/${route}`);
-  }
-
-  async function loadPublicaciones() {
-    try {
-        const response = await new PublicacionesService().getAllPublicaciones();
-        if (response) {
-            publicacion.value = response; // Asignar directamente a publicacion.value
-            console.log('Publicaciones:', publicacion.value);
-
-        } else {
-            console.error('El objeto de respuesta no contiene una propiedad válida de publicaciones:', response);
-        }
-    } catch (error) {
-        console.error('Error al obtener las publicaciones:', error);
+    if (response) {
+      publicacion.value = response;
+      console.log('Publicaciones del usuario:', publicacion.value);
+    } else {
+        toastStore.showToast('error', 'Vacío', 'No tiene Publicaciones actualmente.');
+        console.error('No se encontraron publicaciones para el usuario.');
     }
+  } catch (error) {
+    toastStore.showToast('error', 'Error', 'Error al cargar las publicaciones:');
+    console.error('Error al cargar las publicaciones:', error);
+  }
 }
 
-onMounted(() => {
-  loadPublicaciones();
+async function loadEvaluaciones(){
+  try {
+    const evaluacionesService = await new EvaluacionesService
+    const response = await evaluacionesService.getEvaluacionByUser();
+    
+    if (response) {
+      evaluacion.value = response;
+      console.log('Publicaciones del usuario:', evaluacion.value);
+    } else {
+        toastStore.showToast('error', 'Vacío', 'No ha evaluado nada actualmente.');
+      console.error('No se encontraron evaluaciones para el usuario.');
+    }
+  } catch (error) {    
+    toastStore.showToast('error', 'Error', 'Error al cargar las Evaluaciones:');
+    console.error('Error al cargar las evaluaciones:', error);
+  }
+};
+
+function navigateTo(route: string) {
+  router.push(`/perfil/${route}`);
+}
+
+watch(() => route.path, async (newPath) => {
+  loading.value = true; // Activar el loading
+  if (newPath.includes('software')) {
+    await loadPublicaciones();
+  } else if (newPath.includes('evaluaciones')) {
+    await loadEvaluaciones();
+  }
+  loading.value = false; 
 });
+
+onMounted(() => {
+    setTimeout( async() => {
+        console.log("Delayed for 1 second.");
+       await loadPublicaciones();
+       await loadEvaluaciones();
+        loading.value = false;
+    }, 10);
+});
+
 </script>
   

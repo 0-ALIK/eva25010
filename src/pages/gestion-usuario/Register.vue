@@ -93,6 +93,7 @@ import { useToastStore } from '../../stores/shared/toast-store';
 import useVuelidate from '@vuelidate/core';
 import { alpha, email, maxLength, minLength, required, sameAs } from '@vuelidate/validators';
 
+const toastStore = useToastStore();
 
 const usuario = ref({
     nombre: '',
@@ -130,7 +131,6 @@ const vuelidate = useVuelidate(rules, usuario);
     
 async function enviarDatos() {
     vuelidate.value.$touch();  
-    const toastStore = useToastStore();
 
     if (vuelidate.value.$invalid) {
         toastStore.showToast('error', 'Error', 'Faltan campos por completar')

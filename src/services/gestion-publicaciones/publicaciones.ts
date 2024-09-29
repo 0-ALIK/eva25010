@@ -1,5 +1,6 @@
 import { AxiosService } from "../axios";
 import { Software } from "../../models/software";
+import { useAuthStore } from "../../stores/gestion-usuario/auth-store";
 
 export interface SoftwareResponse {
     softwares: Software[];
@@ -12,7 +13,7 @@ export class PublicacionesService {
     public async getAllPublicaciones(): Promise<Software[] | null> {
         try {
             const response = await AxiosService.http.get<SoftwareResponse>(this.module);
-            return response.data.softwares; // Asegúrate de acceder a publicaciones
+            return response.data.softwares;
         } catch (error) {
             console.error('Error fetching publicaciones:', error);
             return null;
@@ -29,6 +30,20 @@ export class PublicacionesService {
         }
     }
 
+    public async getPublicacionesByUsuario(): Promise<Software[] | null> {
+        try {
+            const authStore = useAuthStore();
+            const usuario = authStore.getUsuario;
+
+            const response = await AxiosService.http.get(`${this.module}?usuarioId=${usuario?.id}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error obteniendo las publicaciones del usuario:', error);
+            return null;
+        }
+    }
+
+    
     public async createPublicacion(data: Software): Promise<SoftwareResponse | null> {
         try {
             const response = await AxiosService.http.post<SoftwareResponse>(this.module, data);
