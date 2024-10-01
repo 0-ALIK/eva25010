@@ -50,6 +50,7 @@ function onClickSiguiente() {
 
 function onUpdateCategorias(event: any) {
     categoriasSeleccionadas.value = event[1].map((c:any) => ({categoria: c.id}));
+    publicacionStore.setCategoriasElegidas(categoriasSeleccionadas.value);
 }
 
 onMounted(async () => {
