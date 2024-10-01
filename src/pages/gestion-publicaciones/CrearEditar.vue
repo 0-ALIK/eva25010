@@ -35,6 +35,6 @@ import StepList from 'primevue/steplist';
 import StepPanel from 'primevue/steppanel';
 import StepPanels from 'primevue/steppanels';
 import Step from 'primevue/step';
-import CrearEditarDatos from './CrearEditarDatos.vue';
-import CrearEditarCategorias from './CrearEditarCategorias.vue';
+import CrearEditarDatos from '../../components/gestion-publicacion/CrearEditarDatos.vue';
+import CrearEditarCategorias from '../../components/gestion-publicacion/CrearEditarCategorias.vue';
 </script>
