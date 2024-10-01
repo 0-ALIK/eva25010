@@ -5,7 +5,7 @@
             <article class="p-space gap-4 flex flex-col h-fit m-outer w-[550px] bg-gray-950/50 rounded-2xl border border-l-gray-500 border-t-gray-300 border-b-gray-900 border-r-gray-700 shadow-2xl backdrop-blur-sm ">
                 <h2 class="text-4xl">Bienvenido a EVA 25010</h2>
                 <p class="text-gray-400 text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde aliquam minus ipsam autem fugiat assumenda consectetur ab voluptatum, nulla laudantium provident dolore expedita. Corrupti eveniet voluptatibus possimus deserunt non ea.</p>
-                <p class="text-base">¿No tienes cuenta? <a href="/login" class="text-primary-500 underline decoration-solid"> Registrate Ahora!</a></p>
+                <p class="text-base">¿No tienes cuenta? <a href="/Registro" class="text-primary-500 underline decoration-solid"> Registrate Ahora!</a></p>
             </article>
             <form @submit.prevent="enviarDatos"  class="m-inner w-[600px] flex flex-col items-center p-space bg-gray-950/50 rounded-2xl border border-l-gray-500 border-t-gray-300 border-b-gray-900 border-r-gray-700 shadow-2xl backdrop-blur-sm ">
                 <h1 class=" pt-14 pb-10 pl-6 m-5 inline-block text-7xl">Iniciar Sesion</h1>
