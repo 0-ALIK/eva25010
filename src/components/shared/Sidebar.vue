@@ -49,10 +49,10 @@ const route = useRoute();
 const sideItems = ref([
 
     { route: '/', label: 'Home', icon: 'pi pi-home' },
-    { route: '/perfil/software', label: 'software', icon: 'pi pi-code' },
-    { route: '/perfil/evaluaciones', label: 'evaluaciones', icon: 'pi pi-list' },
-    { route: '/Agregar', label: 'Agregar', icon: 'pi pi-file-plus' },
-    { route: '/Catalogo', label: 'Catalogo', icon: 'pi pi-list' },
+    { route: '/perfil/software', label: 'Software', icon: 'pi pi-code' },
+    { route: '/perfil/evaluaciones', label: 'Evaluaciones', icon: 'pi pi-list' },
+    { route: '/crear', label: 'Crear', icon: 'pi pi-file-plus' },
+    { route: '/catalogo', label: 'Catalogo', icon: 'pi pi-list' },
 ]);
 
 
