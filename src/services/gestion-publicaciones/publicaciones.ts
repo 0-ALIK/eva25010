@@ -3,6 +3,12 @@ import { SubtipoSoftware } from "../../models/subtipo_software";
 import { Tecnologia } from "../../models/tecnologia";
 import { TipoSoftware } from "../../models/tipo_software";
 import { AxiosService } from "../axios";
+import { Software } from "../../models/software";
+import { useAuthStore } from "../../stores/gestion-usuario/auth-store";
+
+export interface SoftwareResponse {
+    softwares: Software[];
+}
 
 export class PublicacionesService {
 
@@ -10,7 +16,41 @@ export class PublicacionesService {
 
     public async crear(data: FormData) {
         try {
-            const response = await AxiosService.http.post(this.module, data);
+            const response = await AxiosService.http.get<SoftwareResponse>(this.module);
+            return response.data.softwares;
+        } catch (error) {
+            console.error('Error fetching publicaciones:', error);
+            return null;
+        }
+    }
+
+    public async getPublicacionById(id: number): Promise<Software | null> {
+        try {
+            const response = await AxiosService.http.get<Software>(`${this.module}/${id}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error fetching publicacion with ID ${id}:`, error);
+            return null;
+        }
+    }
+
+    public async getPublicacionesByUsuario(): Promise<Software[] | null> {
+        try {
+            const authStore = useAuthStore();
+            const usuario = authStore.getUsuario;
+
+            const response = await AxiosService.http.get(`${this.module}?usuarioId=${usuario?.id}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error obteniendo las publicaciones del usuario:', error);
+            return null;
+        }
+    }
+
+    
+    public async createPublicacion(data: Software): Promise<SoftwareResponse | null> {
+        try {
+            const response = await AxiosService.http.post<SoftwareResponse>(this.module, data);
             return response.data;
         } catch (error) {
             console.error('Error creating publicacion:', error);
