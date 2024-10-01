@@ -23,23 +23,23 @@
     
                 <div class="flex gap-2">
                     <Select v-model="tipo" :options="tipos" :loading="tipos.length === 0" optionLabel="nombre" placeholder="Tipo" @change="onTipoChange"  class="w-full" />
-                    <Select v-model="datos.subtipo" :options="subtipos" :loading="subtipos.length === 0" optionLabel="nombre" placeholder="Subtipo" class="w-full" />
+                    <Select v-model="datos.subtipoSoftware" :options="subtipos" :loading="subtipos.length === 0" optionLabel="nombre" placeholder="Subtipo" class="w-full" />
                 </div>
     
                 <div>
-                    <MultiSelect v-model="tecnologiasSeleccionadas" :options="tecnologias" optionLabel="nombre" filter placeholder="Tecnologias" :maxSelectedLabels="3" class="w-full" />
+                    <MultiSelect v-model="datos.tecnologias" :options="tecnologias" :loading="tecnologias.length === 0" optionLabel="nombre" filter placeholder="Tecnologias" :maxSelectedLabels="3" class="w-full" />
                 </div>
             </form>
             
             <div class="w-full">
                 <div class="mb-10">
                     <h3>Portada</h3>
-                    <FileUpload @select="onSelectPortada" mode="basic" name="demo[]" accept="image/*" :maxFileSize="1000000" class="block"/>
+                    <FileUpload @select="onSelectPortada" mode="basic" accept="image/*" :maxFileSize="1000000" class="block"/>
                 </div>
 
                 <div>
                     <h3>Imagenes</h3>
-                    <FileUpload name="demo[]" url="/api/upload"  :multiple="true" accept="image/*" :maxFileSize="1000000">
+                    <FileUpload @select="onSelectImagenes" @remove="onRemoveImagen" :multiple="true" accept="image/*" :maxFileSize="1000000" :show-cancel-button="false" :show-upload-button="false">
                         <template #empty>
                             <span>Drag and drop files to here to upload.</span>
                         </template>
@@ -70,6 +70,8 @@ import { Licencia } from '../../models/licencia';
 import { TipoSoftware } from '../../models/tipo_software';
 import { SubtipoSoftware } from '../../models/subtipo_software';
 import { PublicacionesService } from '../../services/gestion-publicaciones/publicaciones';
+import { Tecnologia } from '../../models/tecnologia';
+import { usePublicacionStore } from '../../stores/gestion-publicaciones/publicacion-store';
 
 const emit = defineEmits<{
     (e: 'siguiente'): void;
@@ -83,22 +85,19 @@ const tipos = ref<TipoSoftware[]>([]);
 
 const subtipos = ref<SubtipoSoftware[]>([]);
 
-const tecnologias = ref([]);
+const tecnologias = ref<Tecnologia[]>([]);
 
 const tipo = ref(null);
-
-const tecnologiasSeleccionadas = ref([]);
-
-const portada = ref<File | null>(null);
-
-const imagenes = ref<File[]>([]);
 
 const datos = ref({
     nombre: '',
     version: '',
     descripcion: '',
     licencia: null,
-    subtipo: ''
+    subtipoSoftware: '',
+    tecnologias: [],
+    portada: null,
+    imagenesPreview: []
 });
 
 const reglas = {
@@ -106,17 +105,45 @@ const reglas = {
     version: { required, maxLength: maxLength(20) },
     descripcion: { required },
     licencia: { required },
-    subtipo: { required }
+    subtipoSoftware: { required },
+    tecnologias: { required },
+    portada: { required },
+    imagenesPreview: { required }
 };
 
 const vuelidate = useVuelidate(reglas, datos);
 
+const publicacionStore = usePublicacionStore();
+
 function onSiguienteClick() {
+    const licencia: any = datos.value.licencia;
+    const subtipo: any = datos.value.subtipoSoftware;
+    const tecnologias: any = datos.value.tecnologias;
+
+    const datosFormatted = {
+        ...datos.value,
+        licencia: licencia.id,
+        subtipoSoftware: subtipo.id,
+        tecnologias: tecnologias.map((t: any) => t.id)
+    };
+
+    console.log(datosFormatted);
+    
+
+    publicacionStore.setPublicacion(datosFormatted);
     emit('siguiente');
 }
 
 function onSelectPortada(event: any) {
-    console.log(event);
+    datos.value.portada = event.files[0];
+}
+
+function onSelectImagenes(event: any) {
+    datos.value.imagenesPreview = event.files;
+}
+
+function onRemoveImagen(event: any) {
+    datos.value.imagenesPreview = event.files;
 }
 
 async function onTipoChange(event: any) {
@@ -127,5 +154,6 @@ async function onTipoChange(event: any) {
 onMounted(async () => {
     licencias.value = await publicacionesService.obtenerLicencias() || [];
     tipos.value = await publicacionesService.obtenerTipos() || [];
+    tecnologias.value = await publicacionesService.obtenerTecnologias() || [];
 });
 </script>

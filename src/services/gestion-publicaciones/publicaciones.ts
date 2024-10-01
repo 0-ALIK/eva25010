@@ -1,5 +1,6 @@
 import { Licencia } from "../../models/licencia";
 import { SubtipoSoftware } from "../../models/subtipo_software";
+import { Tecnologia } from "../../models/tecnologia";
 import { TipoSoftware } from "../../models/tipo_software";
 import { AxiosService } from "../axios";
 
@@ -53,6 +54,16 @@ export class PublicacionesService {
             return response.data;
         } catch (error) {
             console.error('Error getting subtipos:', error);
+            return null;
+        }
+    }
+
+    public async obtenerTecnologias(): Promise<Tecnologia[] | null> {
+        try {
+            const response = await AxiosService.http.get<Tecnologia[]>(`${this.module}/software/tecnologias`);
+            return response.data;
+        } catch (error) {
+            console.error('Error getting tecnologias:', error);
             return null;
         }
     }

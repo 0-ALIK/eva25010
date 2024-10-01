@@ -2,18 +2,23 @@ import { defineStore } from "pinia";
 
 export const usePublicacionStore = defineStore('publicacion', () => {
 
-    let publicacion: FormData = new FormData();
+    let publicacion: any = {};
 
-    function setPublicacion(newPublicacion: FormData): void {
+    function setPublicacion(newPublicacion: any): void {
         publicacion = newPublicacion;
     }
 
-    function getPublicacion(): FormData {
+    function setCategorias(newCategorias: any): void {
+        publicacion.categorias = newCategorias;
+    }
+
+    function getPublicacion() {
         return publicacion;
     }
 
     return {
         setPublicacion,
+        setCategorias,
         getPublicacion
     }
 
