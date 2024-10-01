@@ -32,6 +32,11 @@ const router = createRouter({
                 {
                     path: "crear",
                     component: () => import("./pages/gestion-publicaciones/CrearEditar.vue")
+                },
+
+                {
+                    path: "software/:id",
+                    component: () => import("./pages/gestion-publicaciones/VerPublicación.vue")
                 }
             ]
         },

@@ -1,6 +1,6 @@
 <template>
     <div class="w-full">
-        <h1 class="font-bold">Creación de software</h1>
+        <h2 class="font-bold">Creación de software</h2>
 
         <div>
             <Stepper value="1" class="w-full" linear>
