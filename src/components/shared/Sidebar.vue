@@ -50,9 +50,9 @@ const sideItems = ref([
 
     { route: '/', label: 'Home', icon: 'pi pi-home' },
     { route: '/perfil/software', label: 'software', icon: 'pi pi-code' },
-    { route: '/perfil/evaluaciones', label: 'evaluaciones', icon: 'pi pi-list' },
-    { route: '/Agregar', label: 'Agregar', icon: 'pi pi-file-plus' },
-    { route: '/Catalogo', label: 'Catalogo', icon: 'pi pi-list' },
+    { route: '/perfil/evaluaciones', label: 'evaluaciones', icon: 'pi pi-file-check' },
+    { route: '/crear', label: 'Agregar', icon: 'pi pi-file-plus' },
+    { route: '/catalogo', label: 'Catalogo', icon: 'pi pi-list' },
 ]);
 
 

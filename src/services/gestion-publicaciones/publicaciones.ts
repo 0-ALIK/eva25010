@@ -1,16 +1,32 @@
 import { AxiosService } from "../axios";
 import { Software } from "../../models/software";
 import { useAuthStore } from "../../stores/gestion-usuario/auth-store";
+import { Licencia } from "../../models/licencia";
+import { TipoSoftware } from "../../models/tipo_software";
+import { Tecnologia } from "../../models/tecnologia";
 
 export interface SoftwareResponse {
     softwares: Software[];
 }
 
+export interface LicenciaResponse {
+    licencias: Licencia[];
+}
+
+export interface TecnologiaResponse {
+    tecnologias: Tecnologia[];
+}
+
+export interface TipoResponse {
+    tipos: TipoSoftware[];
+}
+
+//Clase
 export class PublicacionesService {
 
     private module: string = '/gestion-publicaciones';
 
-    public async getAllPublicaciones(): Promise<Software[] | null> {
+    public async obtenerAllPublicaciones(): Promise<Software[] | null> {
         try {
             const response = await AxiosService.http.get<SoftwareResponse>(this.module);
             return response.data.softwares;
@@ -20,7 +36,7 @@ export class PublicacionesService {
         }
     }
 
-    public async getPublicacionById(id: number): Promise<Software | null> {
+    public async obtenerPublicacionById(id: number): Promise<Software | null> {
         try {
             const response = await AxiosService.http.get<Software>(`${this.module}/${id}`);
             return response.data;
@@ -30,7 +46,7 @@ export class PublicacionesService {
         }
     }
 
-    public async getPublicacionesByUsuario(): Promise<Software[] | null> {
+    public async obtenerPublicacionesByUsuario(): Promise<Software[] | null> {
         try {
             const authStore = useAuthStore();
             const usuario = authStore.getUsuario;
@@ -73,4 +89,38 @@ export class PublicacionesService {
             return false;
         }
     }
+
+//Gets para los filtros
+    public async obtenerLicencias(): Promise<Licencia[] | null> {
+        try {
+            const response = await AxiosService.http.get<LicenciaResponse>(`${this.module}/software/licencias`);
+            return response.data.licencias;
+
+        } catch (error) {
+            console.error('Error fetching licencias:', error);
+            return null;
+        }
+    };
+
+    public async obtenerTipos(): Promise<TipoSoftware[] | null> {
+        try {
+            const response = await AxiosService.http.get<TipoResponse>(`${this.module}/software/tipos`);
+            return response.data.tipos;
+
+        } catch (error) {
+            console.error('Error fetching Tipos de software:', error);
+            return null;
+        }
+    };
+
+    public async obtenerTecnologias(): Promise<Tecnologia[] | null> {
+        try {
+            const response = await AxiosService.http.get<TecnologiaResponse>(`${this.module}/software/tecnologias`);
+            return response.data.tecnologias;
+
+        } catch (error) {
+            console.error('Error fetching tecnologias:', error);
+            return null;
+        }
+    };
 }

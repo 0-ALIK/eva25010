@@ -17,7 +17,7 @@ const router = createRouter({
                     component: () => import("./pages/gestion-usuario/Perfil.vue"),
                     children:[
                         {
-                            path: "software",
+                            path: "software", //hacer una page para cargar la cargar para poder iterarla
                             component: () => import('./components/shared/CardSoftware.vue'),
 
                         },
@@ -27,6 +27,10 @@ const router = createRouter({
 
                         }
                 ]
+                },
+                {
+                    path: "/catalogo",
+                    component: () => import('./pages/gestion-publicaciones/Catalogo.vue'),
                 }
             ]
         },
@@ -37,7 +41,7 @@ const router = createRouter({
         {
             path: "/registro",
             component: () => import("./pages/gestion-usuario/Register.vue")
-        }
+        },
     ]
 });
 

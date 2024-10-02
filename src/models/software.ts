@@ -7,19 +7,19 @@ import { SubtipoSoftware } from "./subtipo_software";
 import { ImagenPreview } from "./imagen_preview";
 
 export interface Software {
-    id: number;
-    nombre: string;
-    version: string;
-    portada: string;
-    descripcion: string;
-    usuario: Usuario;
-    subtipoSoftware: SubtipoSoftware;
-    licencia: Licencia;
-    categorias: SoftwareCategoria[];
-    evaluaciones: Evaluacion[];
-    preguntasCustom: PreguntaCustom[];
-    imagenesPreview: ImagenPreview[];
-    createdAt: Date;
-    updatedAt: Date;
-    enlace: String;
+    id?: number;
+    nombre?: string;
+    version?: string;
+    portada?: string;
+    descripcion?: string;
+    usuario?: Usuario;
+    subtipoSoftware?: SubtipoSoftware;
+    licencia?: Licencia;
+    categorias?: SoftwareCategoria[];
+    evaluaciones?: Evaluacion[];
+    preguntasCustom?: PreguntaCustom[];
+    imagenesPreview?: ImagenPreview[];
+    createdAt?: Date;
+    updatedAt?: Date;
+    enlace?: String;
 }

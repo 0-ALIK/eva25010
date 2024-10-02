@@ -11,7 +11,14 @@
             <h4>{{usuario?.cargo || 'Cargo' }}</h4>
         </article>
 
-        <Button label="Editar" icon="pi pi-pen-to-square"></Button>
+        <Button label="Editar" @click="editarDatos" icon="pi pi-pen-to-square"></Button>
+    
+        <EditarUsuario v-model:visible="isVisible" />
+
+    </div>
+
+    <div>
+        <h3>Cargando perfil...</h3>
     </div>
 </template>
 
@@ -19,8 +26,17 @@
 import Avatar from 'primevue/avatar'
 import Button from 'primevue/button';
 import { useAuthStore } from '../../stores/gestion-usuario/auth-store';
+import EditarUsuario from './EditarUsuario.vue';
+import { ref } from 'vue';
 
 const authStore = useAuthStore();
-const usuario = authStore.getUsuario;
+const usuario = authStore.getUsuario; 
+
+const isVisible = ref(false);
+
+function editarDatos(){
+    isVisible.value = true;
+
+}
 </script>
 

@@ -7,6 +7,10 @@ interface AuthResponse {
     token: string;
 }
 
+export interface UsuarioResponse {
+    usuarios: Usuario[];
+}
+
 export class AuthService {
 
     private module: string = '/gestion-usuario';
@@ -49,4 +53,28 @@ export class AuthService {
             return null;
         }
     }
+
+    public async actualizarDatosUsuario(formData: FormData): Promise<Usuario | null> {
+    try {
+        const response = await AxiosService.http.put(`${this.module}/usuarios`, 
+            formData
+        );
+        return response.data.usuarios
+
+    } catch (error) {
+        console.error('Error al actualizar el usuario:', error);
+        return null;
+    }
+} 
+
+    public async obtenerAllUsuarios(): Promise<Usuario[] | null> {
+        try {
+            const response = await AxiosService.http.get<UsuarioResponse>(`${this.module}/usuarios`);
+            return response.data.usuarios;
+        } catch (error) {
+            console.error('Error fetching usuarios:', error);
+            return null;
+        }
+    }
+
 }
