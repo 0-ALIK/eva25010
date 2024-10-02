@@ -10,11 +10,24 @@ export interface SoftwareResponse {
     softwares: Software[];
 }
 
+export interface LicenciaResponse {
+    licencias: Licencia[];
+}
+
+export interface TecnologiaResponse {
+    tecnologias: Tecnologia[];
+}
+
+export interface TipoResponse {
+    tipos: TipoSoftware[];
+}
+
+//Clase
 export class PublicacionesService {
 
     private module: string = '/gestion-publicaciones';
 
-    public async crear(data: FormData) {
+    public async obtenerAllPublicaciones(): Promise<Software[] | null> {
         try {
             const response = await AxiosService.http.get<SoftwareResponse>(this.module);
             return response.data.softwares;
@@ -24,7 +37,7 @@ export class PublicacionesService {
         }
     }
 
-    public async getPublicacionById(id: number): Promise<Software | null> {
+    public async obtenerPublicacionById(id: number): Promise<Software | null> {
         try {
             const response = await AxiosService.http.get<Software>(`${this.module}/${id}`);
             return response.data;
@@ -34,7 +47,7 @@ export class PublicacionesService {
         }
     }
 
-    public async getPublicacionesByUsuario(): Promise<Software[] | null> {
+    public async obtenerPublicacionesByUsuario(): Promise<Software[] | null> {
         try {
             const authStore = useAuthStore();
             const usuario = authStore.getUsuario;

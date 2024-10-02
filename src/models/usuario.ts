@@ -4,10 +4,10 @@ import { Evaluacion } from "./evaluacion";
 
 export interface Usuario {
     id?: number;  
-    nombre: string;
-    apellido: string;
-    correo: string;
-    password: string;
+    nombre?: string;
+    apellido?: string;
+    correo?: string;
+    password?: string;
     cargo?: string;        
     foto?: string;         
     profesion?: Profesion; 

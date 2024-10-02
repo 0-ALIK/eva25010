@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col h-screen">
-        <div class="flex justify-end flex-row-reverse gap-4 overflow-y-auto h-full">
+        <div class="flex justify-end flex-row-reverse gap-4  h-full">
             <section class="flex flex-col gap-2 mt-2 ">
                 <Tabs  value="/software" class="w-fit">
                     <h1>Perfil de Usuario</h1>
@@ -13,7 +13,7 @@
                 <div v-if="loading">
                   <LoadSkeleton/>
                 </div>
-                
+                <!--Cargarlos en bucle-->
                 <div v-else>
                   <RouterView />
                 </div>
@@ -50,7 +50,7 @@ const loading = ref(true);
 async function loadPublicaciones() {
   try {
     const publicacionesService = new PublicacionesService();
-    const response = await publicacionesService.getPublicacionesByUsuario();
+    const response = await publicacionesService.obtenerPublicacionesByUsuario();
 
     if (response) {
       publicacion.value = response;
@@ -68,7 +68,7 @@ async function loadPublicaciones() {
 async function loadEvaluaciones(){
   try {
     const evaluacionesService = await new EvaluacionesService
-    const response = await evaluacionesService.getEvaluacionByUser();
+    const response = await evaluacionesService.obtenerEvaluacionByUser();
     
     if (response) {
       evaluacion.value = response;

@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { AuthService } from "./services/gestion-usuario/auth";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -19,7 +18,7 @@ const router = createRouter({
                     meta: { auth: true },
                     children:[
                         {
-                            path: "software",
+                            path: "software", //hacer una page para cargar la cargar para poder iterarla
                             component: () => import('./components/shared/CardSoftware.vue'),
                             meta: { auth: true },
                         },
@@ -40,17 +39,16 @@ const router = createRouter({
                 {
                     path: "software/:id",
                     component: () => import("./pages/gestion-publicaciones/VerPublicación.vue"),
-                   /* children:[
-                        {
-                            path: "evaluar/:id",
-                            component: () => import('./pages/evaluaciones/Evaluaciones.vue'),
-                        }
-                    ]*/
                 },
-                //recuerda quitarlo de aqui
+                
                 {
                     path: "evaluar/:id",
                     component: () => import('./pages/evaluaciones/Evaluaciones.vue'),
+                },
+
+                {
+                    path: "/catalogo",
+                    component: () => import('./pages/gestion-publicaciones/Catalogo.vue'),
                 }
             ]
         },
@@ -61,7 +59,7 @@ const router = createRouter({
         {
             path: "/registro",
             component: () => import("./pages/gestion-usuario/Register.vue")
-        }
+        },
     ]
 });
 

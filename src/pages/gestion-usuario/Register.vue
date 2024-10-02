@@ -92,6 +92,8 @@ import { AuthService } from '../../services/gestion-usuario/auth'
 import { useToastStore } from '../../stores/shared/toast-store';
 import useVuelidate from '@vuelidate/core';
 import { alpha, email, maxLength, minLength, required, sameAs } from '@vuelidate/validators';
+import { useAuthStore } from '../../stores/gestion-usuario/auth-store';
+import router from '../../router';
 
 const toastStore = useToastStore();
 
@@ -137,17 +139,27 @@ async function enviarDatos() {
     }
     
     try {
-        const response = await new AuthService().register(usuario.value);
-        console.log('Respuesta del servidor:', response);
-        if (response && response.usuario) {
-            toastStore.showToast('success', 'Registro exitoso', 'Usuario registrado correctamente.');
-            
-        } else {
-            toastStore.showToast('error', 'Error del servidor', 'No se pudo registrar el usuario.');
-        }
-    } catch (error) {
-        console.error('Error al registrar:', error);
+    const response = await new AuthService().register(usuario.value);
+    console.log('Respuesta del servidor:', response);
+    const authStore = useAuthStore();
+
+    if (response && response.usuario) {
+
+        const token = response.token; 
+        authStore.setUsuario(response.usuario); 
+        authStore.setToken(token);
+
+        toastStore.showToast('success', 'Registro exitoso', 'Usuario registrado correctamente, redirigiendo');
+        setTimeout(()=> {
+            router.push('/'); 
+        }, 1000)
+    } else {
+        toastStore.showToast('error', 'Error del servidor', 'No se pudo registrar el usuario.');
     }
+} catch (error) {
+    console.error('Error al registrar:', error);
+    toastStore.showToast('error', 'Error', 'Hubo un problema al registrar el usuario.');
+}
 
 }
 </script>

@@ -75,11 +75,10 @@ const sessionActive = ref(false);
 const loading = ref(true);
 
 const sideItems = ref([
-
     { route: '/', label: 'Home', icon: 'pi pi-home' },
     { route: '/perfil/software', label: 'Software', icon: 'pi pi-code' },
-    { route: '/perfil/evaluaciones', label: 'Evaluaciones', icon: 'pi pi-list' },
-    { route: '/crear', label: 'Crear', icon: 'pi pi-file-plus' },
+    { route: '/perfil/evaluaciones', label: 'Evaluaciones', icon: 'pi pi-file-check' },
+    { route: '/crear', label: 'Agregar', icon: 'pi pi-file-plus' },
     { route: '/catalogo', label: 'Catalogo', icon: 'pi pi-list' },
 ]);
 
