@@ -41,6 +41,15 @@
                 <Image src="https://cdn.pixabay.com/photo/2023/10/29/14/37/pumpkins-8350480_1280.jpg" alt="Image" width="500" preview />
             </div>
         </div>
+
+        <Divider align="center" type="dotted" class="text-primary">
+            <b>Comentarios más recientes</b>
+        </Divider>
+
+        <div>
+            
+        </div>
+
     </div>
 </template>
 
@@ -50,4 +59,5 @@ import Image from 'primevue/image';
 import Avatar from 'primevue/avatar';
 import Tag from 'primevue/tag';
 import Button from 'primevue/button';
+import Divider from 'primevue/divider';
 </script>

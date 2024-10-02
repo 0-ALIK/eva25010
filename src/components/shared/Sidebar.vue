@@ -19,18 +19,25 @@
         <!-- Usuario -->
         <div>
             <Divider />
-            
-            <!-- session inactiva -->
-            <div v-if="false">
-                <Avatar icon="pi pi-user" size="large" style="background-color: #ece9fc; color: #2a1261" shape="circle" @click="toggle" />
-                <Menu ref="menu" id="overlay_menu" :model="menuItems" :popup="true" />
-            </div>
 
-            <!-- session activa -->
-            <div v-if="true" class="flex flex-col gap-2 items-center">
-                <Avatar icon="pi pi-user" size="large" style="background-color: #ece9fc; color: #2a1261" shape="circle" />
-                <Button icon="pi pi-power-off" text />
-            </div>
+            <template v-if="loading">
+                <div class="flex flex-col gap-2 items-center">
+                    <Skeleton shape="circle" size="3rem"></Skeleton>
+                </div>
+            </template>
+            <template v-else>
+                <!-- session inactiva -->
+                <div v-if="!sessionActive">
+                    <Avatar icon="pi pi-user" size="large" style="background-color: #ece9fc; color: #2a1261" shape="circle" @click="toggle" />
+                    <Menu ref="menu" id="overlay_menu" :model="menuItems" :popup="true" />
+                </div>
+    
+                <!-- session activa -->
+                <div v-if="sessionActive" class="flex flex-col gap-2 items-center">
+                    <Avatar :image="usuario?.foto || '/user_placeholder.jpg'" size="large" shape="circle" />
+                    <Button icon="pi pi-power-off" text @click="onClickLogout" />
+                </div>
+            </template>            
         </div>
     </div>
 </template>
@@ -40,11 +47,32 @@ import Button from 'primevue/button';
 import Avatar from 'primevue/avatar';
 import Divider from 'primevue/divider';
 import Menu from 'primevue/menu';
-import { ref } from 'vue';
+import Skeleton from 'primevue/skeleton';
+import { onMounted, ref } from 'vue';
 import { MenuItem } from 'primevue/menuitem';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import { AuthService } from '../../services/gestion-usuario/auth';
+import { useAuthStore } from '../../stores/gestion-usuario/auth-store';
+import { useConfirmStore } from '../../stores/shared/confirm-store';
+import { useToastStore } from '../../stores/shared/toast-store';
 
 const route = useRoute();
+
+const router = useRouter();
+
+const confirm = useConfirmStore();
+
+const toast = useToastStore();
+
+const authService = new AuthService();
+
+const authStore = useAuthStore();
+
+const usuario = ref(authStore.getUsuario);
+
+const sessionActive = ref(false);
+
+const loading = ref(true);
 
 const sideItems = ref([
 
@@ -55,8 +83,8 @@ const sideItems = ref([
     { route: '/catalogo', label: 'Catalogo', icon: 'pi pi-list' },
 ]);
 
-
 const menu = ref<typeof Menu | null>(null);
+
 const menuItems = ref<MenuItem[]>([
     {
         label: 'Auth',
@@ -65,14 +93,14 @@ const menuItems = ref<MenuItem[]>([
                 label: 'Login',
                 icon: 'pi pi-fw pi-user',
                 command: () => {
-                    console.log('Login');
+                    router.push('/login');
                 }
             },
             {
                 label: 'Register',
                 icon: 'pi pi-fw pi-user-plus',
                 command: () => {
-                    console.log('Register');
+                    router.push('/registro');
                 }
             }
         ]
@@ -82,4 +110,44 @@ const menuItems = ref<MenuItem[]>([
 function toggle(event: Event): void {
     menu.value?.toggle(event);
 }
+
+async function verificarSession(): Promise<void> {
+    const response = await authService.verify();
+    if (response) {
+        usuario.value = authStore.getUsuario;
+        sessionActive.value = true;
+    }
+    loading.value = false;
+}
+
+function onClickLogout(): void {
+    confirm.showConfirm({
+        message: '¿Estás seguro de cerrar sesión?',
+        header: 'Cerrar sesión',
+        icon: 'pi pi-info-circle',
+        rejectLabel: 'Cancelar',
+        rejectProps: {
+            label: 'Cancelar',
+            severity: 'secondary',
+            outlined: true
+        },
+        acceptProps: {
+            label: 'Cerrar sesión',
+            severity: 'danger'
+        },
+        accept: () => {
+            router.push('/');
+            authStore.logout();
+            sessionActive.value = false;
+            toast.showToast('success', 'Sesión cerrada', 'Has cerrado sesión correctamente');
+        },
+        reject: () => {
+            toast.showToast('info', 'Operación cancelada', 'Has cancelado la operación de cerrar sesión');
+        }
+    })
+}
+
+onMounted(async () => {
+    await verificarSession();
+});
 </script>

@@ -11,10 +11,10 @@ export class AuthService {
 
     private module: string = '/gestion-usuario';
     
-    public async login(email: string, password: string): Promise<AuthResponse | null> {
+    public async login(correo: string, password: string): Promise<AuthResponse | null> {
         try {
             const response = await AxiosService.http.post<AuthResponse>(this.module+'/auth/login', {
-                email,
+                correo,
                 password
             });
 
@@ -24,7 +24,23 @@ export class AuthService {
             
             return response.data;
         } catch (error) {
-            console.error(error);
+            return null;
+        }
+    }
+
+    public async verify(): Promise<Usuario | null> {
+        try {
+            const authStore = useAuthStore();
+
+            const response = await AxiosService.http.get<Usuario>(this.module+'/auth/verify', {
+                headers: {
+                    'x-token': authStore.getToken || ''
+                }
+            });
+
+            authStore.setUsuario(response.data);
+            return response.data;
+        } catch (error) {
             return null;
         }
     }

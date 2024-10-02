@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { AuthService } from "./services/gestion-usuario/auth";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -15,23 +16,25 @@ const router = createRouter({
                 {
                     path: "perfil",
                     component: () => import("./pages/gestion-usuario/Perfil.vue"),
+                    meta: { auth: true },
                     children:[
                         {
                             path: "software",
                             component: () => import('./components/shared/CardSoftware.vue'),
-
+                            meta: { auth: true },
                         },
                         {
                             path: "evaluaciones",
                             component: () => import('./components/gestion-usuario/CardEvaluaciones.vue'),
-
+                            meta: { auth: true },
                         }
                     ]
                 },
 
                 {
                     path: "crear",
-                    component: () => import("./pages/gestion-publicaciones/CrearEditar.vue")
+                    component: () => import("./pages/gestion-publicaciones/CrearEditar.vue"),
+                    meta: { auth: true },
                 },
 
                 {

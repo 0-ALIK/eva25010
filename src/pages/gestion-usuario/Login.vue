@@ -15,7 +15,7 @@
                             <div class="flex flex-col">
                                 <IconField>
                                     <InputIcon class="pi pi-user text-primary-500" style="color: var(--p-Sprimary-500)" />
-                                    <InputText v-model="usuario.nombre" placeholder="Nombre" type="text" class="w-[400px]" />
+                                    <InputText v-model="usuario.correo" placeholder="Nombre" type="text" class="w-[400px]" />
                                 </IconField>
                             </div>
                     </article> 
@@ -29,7 +29,7 @@
                         </div>
                     </article>
                     <div class="w-[100%] flex flex-col items-center">
-                        <Button @click="enviarDatos" icon="pi pi-chevron-right" class="text-white w-fit" label="Inisiar Sesion"/>    
+                        <Button @click="enviarDatos" icon="pi pi-chevron-right" class="text-white w-fit" label="Inisiar Sesion" :disabled="vuelidate.$invalid" />    
                     </div>
                 </section>
             </form>
@@ -46,24 +46,25 @@ import { ref } from 'vue';
 import { AuthService } from '../../services/gestion-usuario/auth'
 import { useToastStore } from '../../stores/shared/toast-store';
 import useVuelidate from '@vuelidate/core';
-import { alpha, maxLength, minLength, required} from '@vuelidate/validators';
+import { minLength, required} from '@vuelidate/validators';
+import { useRouter } from 'vue-router';
 
 const toastStore = useToastStore();
 
+const router = useRouter();
+
 const usuario = ref({
-    nombre: '',
+    correo: '',
     password: ''
 });
 
 const rules = {
-    nombre:{
-        required,
-        alpha
+    correo:{
+        required
     },
     password:{
         required,
-        minLength: minLength(6),
-        maxLength: maxLength(12)
+        minLength: minLength(6)
     }  
 };
 
@@ -73,28 +74,18 @@ async function enviarDatos() {
     vuelidate.value.$touch();  
 
     if (vuelidate.value.$invalid) {
-        toastStore.showToast('error', 'Error', 'Faltan campos por completar')
+        toastStore.showToast('error', 'Error', 'Faltan campos por completar');
+        return;
     }
     
-    try {
-   
-    const response = await new AuthService().login(usuario.value.nombre,usuario.value.password);
-    console.log('Respuesta del servidor:', response);
+    const response = await new AuthService().login(usuario.value.correo, usuario.value.password);
 
-  
     if (response && response.usuario) {
         toastStore.showToast('success', 'Inicio de sesión exitoso', 'Usuario ha iniciado sesión correctamente.');
-        
-        // Ejemplo: router.push('/dashboard'); // Dependiendo de tu configuración de rutas.
+        router.push('/');
     } else {
-  
         toastStore.showToast('error', 'Error de inicio de sesión', 'Correo o contraseña incorrectos.');
     }
-} catch (error) {
-
-    console.error('Error al iniciar sesión:', error);
-    toastStore.showToast('error', 'Error del servidor', 'No se pudo iniciar sesión.');
-}
 
 }
 </script>
