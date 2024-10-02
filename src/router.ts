@@ -39,7 +39,18 @@ const router = createRouter({
 
                 {
                     path: "software/:id",
-                    component: () => import("./pages/gestion-publicaciones/VerPublicación.vue")
+                    component: () => import("./pages/gestion-publicaciones/VerPublicación.vue"),
+                   /* children:[
+                        {
+                            path: "evaluar/:id",
+                            component: () => import('./pages/evaluaciones/Evaluaciones.vue'),
+                        }
+                    ]*/
+                },
+                //recuerda quitarlo de aqui
+                {
+                    path: "evaluar/:id",
+                    component: () => import('./pages/evaluaciones/Evaluaciones.vue'),
                 }
             ]
         },
