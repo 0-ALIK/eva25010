@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { computed, Ref, ref } from "vue";
+import { computed, ref } from "vue";
 import { Categoria } from "../../models/categoria";
 
 export const usePublicacionStore = defineStore('publicacion', () => {
@@ -22,9 +22,9 @@ export const usePublicacionStore = defineStore('publicacion', () => {
 
     function setCategoriasElegidas(categorias: Categoria[]) {
         categoriasElegidas.value = categorias;
-    }
+    }    
 
-    function getCategoriasElegidas(): Ref<Categoria[]> {
+    function getCategoriasElegidas() {
         return computed(() => categoriasElegidas.value);
     }
 
