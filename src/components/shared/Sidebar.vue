@@ -53,6 +53,8 @@ const sideItems = ref([
     { route: '/perfil/evaluaciones', label: 'evaluaciones', icon: 'pi pi-file-check' },
     { route: '/crear', label: 'Agregar', icon: 'pi pi-file-plus' },
     { route: '/catalogo', label: 'Catalogo', icon: 'pi pi-list' },
+    { route: '/resultados', label: 'Resultados', icon: 'pi pi-chart-bar' },
+
 ]);
 
 

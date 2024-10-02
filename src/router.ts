@@ -31,6 +31,10 @@ const router = createRouter({
                 {
                     path: "/catalogo",
                     component: () => import('./pages/gestion-publicaciones/Catalogo.vue'),
+                },
+                {
+                    path: "/resultados",
+                    component: () => import('./pages/evaluaciones/Resultados.vue'),
                 }
             ]
         },
