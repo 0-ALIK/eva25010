@@ -32,7 +32,7 @@
                     </div>
 
                     <div>
-                        <Button type="button" label="Evaluar" icon="pi pi-search" />
+                        <Button type="button" label="Evaluar" icon="pi pi-check-square" />
                     </div>
                 </section>
             </div>
