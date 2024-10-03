@@ -39,10 +39,9 @@ export class PublicacionesService {
 
     public async obtenerPublicacionById(id: number): Promise<Software | null> {
         try {
-            const response = await AxiosService.http.get<Software>(`${this.module}/${id}`);
+            const response = await AxiosService.http.get<Software>(`${this.module}/software/obtener/${id}`);
             return response.data;
         } catch (error) {
-            console.error(`Error fetching publicacion with ID ${id}:`, error);
             return null;
         }
     }
