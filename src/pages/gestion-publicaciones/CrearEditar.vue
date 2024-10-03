@@ -12,13 +12,13 @@
                 </StepList>
 
                 <StepPanels>
-                    <StepPanel v-slot="{ activateCallback }" value="1" class="p-5 rounded-md">
+                    <StepPanel v-slot="{ activateCallback }" value="1" class="p-5 rounded-md border border-surface-800">
                         <CrearEditarDatos @siguiente="activateCallback('2')" :software="softwareEnEdicion" />
                     </StepPanel>
-                    <StepPanel v-slot="{ activateCallback }" value="2" class="p-5 rounded-md" v-if="!enEdicion">
+                    <StepPanel v-slot="{ activateCallback }" value="2" class="p-5 rounded-md border border-surface-800" v-if="!enEdicion">
                         <CrearEditarCategorias @atras="activateCallback('1')" @siguiente="activateCallback('3')" />
                     </StepPanel>
-                    <StepPanel v-slot="{ activateCallback }" value="3" class="p-5 rounded-md" v-if="!enEdicion">
+                    <StepPanel v-slot="{ activateCallback }" value="3" class="p-5 rounded-md border border-surface-800" v-if="!enEdicion">
                         <CrearEditarPreguntas @atras="activateCallback('2')" />
                     </StepPanel>
                 </StepPanels>

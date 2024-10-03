@@ -1,5 +1,20 @@
 <template>
     <div>
+        <ConfirmDialog group="templating">
+            <template #message="slotProps">
+                <div class="flex flex-col items-center w-full gap-4 border-b border-surface-200 dark:border-surface-700">
+                    <i :class="slotProps.message.icon" class="!text-6xl text-primary-500"></i>
+                    <p>{{ slotProps.message.message }}</p>
+                    <p>Este software contiene: </p>
+                    <ul>
+                        <li v-for="categoria in software?.categorias" class="list-disc">
+                            {{ categoria.categoria.nombre }}
+                        </li>
+                    </ul>
+                </div>
+            </template>
+        </ConfirmDialog>
+
         <!-- Titulo -->
         <div class="flex gap-2 mb-8">
             <h2 v-if="software" class="font-bold m-0">{{ software.nombre }}</h2>
@@ -10,7 +25,7 @@
 
         <div class="flex gap-4">
             
-            <div class="p-5 rounded-md bg-surface-900 w-full flex flex-col justify-between">
+            <div class="p-5 rounded-md bg-surface-900 w-full flex flex-col justify-between border border-surface-800">
                 <section>
                     <p v-if="software">{{ software.descripcion }}</p>
                     <div v-else>
@@ -32,7 +47,7 @@
                     </div>
 
                     <div>
-                        <Button type="button" label="Evaluar" icon="pi pi-check-square" />
+                        <Button type="button" label="Evaluar" icon="pi pi-check-square" @click="onClickEvaluar" />
                     </div>
                 </section>
             </div>
@@ -54,6 +69,7 @@
 </template>
 
 <script setup lang="ts">
+import ConfirmDialog from 'primevue/confirmdialog';
 import Chip from 'primevue/chip';
 import Image from 'primevue/image';
 import Tag from 'primevue/tag';
@@ -65,13 +81,40 @@ import Usuario from '../../components/shared/Usuario.vue';
 import { onMounted, ref } from 'vue';
 import { PublicacionesService } from '../../services/gestion-publicaciones/publicaciones';
 import { Software } from '../../models/software';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import { useConfirmStore } from '../../stores/shared/confirm-store';
 
 const publicacionService = new PublicacionesService();
 
+const confirm = useConfirmStore();
+
 const route = useRoute();
 
+const router = useRouter();
+
 const software = ref<Software | null>(null);
+
+function onClickEvaluar() {
+    confirm.showConfirm({
+        group: 'templating',
+        message: '¿Desea comenzar la evaluación de este Software?',
+        header: 'Evaluar software',
+        icon: 'pi pi-info-circle',
+        rejectLabel: 'Cancelar',
+        rejectProps: {
+            label: 'Cancelar',
+            severity: 'secondary',
+            outlined: true
+        },
+        acceptProps: {
+            label: 'Comenzar',
+            severity: 'success'
+        },
+        accept: () => {
+            router.push('/evaluar/'+software.value?.id);
+        },
+    });
+}
 
 onMounted(async () => {
     if (!route.params.id) {
