@@ -1,5 +1,6 @@
 <template>
     <div>
+        <Loading :visible="loading" />
         <div class="flex gap-4">
             <div class="w-full">
                 <BlockUI :blocked="formMeta.blocked" class="p">
@@ -43,13 +44,14 @@
 
         <div class="flex justify-center gap-4 mt-10">
             <Button label="Atrás" severity="secondary" icon="pi pi-arrow-left" @click="onClickAtras" />
-            <Button label="Siguiente" icon="pi pi-arrow-right" iconPos="right" />
+            <Button label="Crear software" @click="onClickCrear" :loading="loading" />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { usePublicacionStore } from '../../stores/gestion-publicaciones/publicacion-store';
+import Loading from '../shared/Loading.vue';
 import InputText from 'primevue/inputtext';
 import FloatLabel from 'primevue/floatlabel';
 import BlockUI from 'primevue/blockui';
@@ -62,6 +64,20 @@ import AccordionHeader from 'primevue/accordionheader';
 import AccordionContent from 'primevue/accordioncontent';
 import { ref } from 'vue';
 import { Categoria } from '../../models/categoria';
+import { PublicacionesService } from '../../services/gestion-publicaciones/publicaciones';
+import { useConfirmStore } from '../../stores/shared/confirm-store';
+import { useRouter } from 'vue-router';
+import { useToastStore } from '../../stores/shared/toast-store';
+
+const publicacionService = new PublicacionesService();
+
+const loading = ref(false);
+
+const router = useRouter();
+
+const toast = useToastStore();
+
+const confirm = useConfirmStore();
 
 const emits = defineEmits<{
     (e: 'atras'): void;
@@ -120,5 +136,79 @@ function onClickEditar(categoria: any) {
 
 function onClickAtras() {
     emits('atras');
+}
+
+function generarConfirmDialog(error: boolean) {
+    confirm.showConfirm({
+        message: error ? 'Ha ocurrido un error al crear el software' : 'Software creado correctamente',
+        header: error ? 'Error' : 'Software creado',
+        icon: 'pi' + (error ? ' pi-exclamation-triangle' : ' pi-check'),
+        acceptProps: {
+            label: 'Continuar',
+            severity: 'success'
+        },
+        rejectClass: 'hidden', 
+        accept: () => {
+            if (!error) {
+                router.push('/perfil/software');
+            } 
+            toast.showToast(
+                error ? 'error' : 'success',
+                error ? 'Error' : 'Software creado',
+                error ? 'Ha ocurrido un error al crear el software' : 'Un nuevo software ha sido creado'
+            );
+        }
+    });
+}
+
+async function onClickCrear() {
+    loading.value = true;
+
+    const publicacion = publicacionStore.getPublicacion();
+    const formData = new FormData();
+
+    formData.append('nombre', publicacion.nombre);
+    formData.append('descripcion', publicacion.descripcion);
+    formData.append('version', publicacion.version);
+    formData.append('licencia', publicacion.licencia);
+    formData.append('subtipoSoftware', publicacion.subtipoSoftware);
+    formData.append('tecnologias', JSON.stringify(publicacion.tecnologias));
+
+    publicacion.categorias = categorias.value.map((categoria: any) => {
+        // si la pregunta no esta, no enviarla
+        if (!categoria.pregunta) {
+            return {
+                categoria: categoria.id
+            };
+        }
+
+        return {
+            categoria: categoria.id,
+            pregunta: categoria.pregunta
+        };
+    });
+
+    formData.append('categorias', JSON.stringify(publicacion.categorias));
+
+    formData.append('portada', publicacion.portada);
+
+    publicacion.imagenesPreview.forEach((imagen: any) => {
+        formData.append('imagenesPreview', imagen);
+    });
+
+    const response = await publicacionService.createPublicacion(formData);
+
+    loading.value = false;
+
+    if (response) {
+        loading.value = false;
+        publicacionStore.setPublicacion(null);
+        publicacionStore.setCategoriasElegidas([]);
+        generarConfirmDialog(false);
+        return;
+    }
+
+    generarConfirmDialog(true);
+
 }
 </script>   

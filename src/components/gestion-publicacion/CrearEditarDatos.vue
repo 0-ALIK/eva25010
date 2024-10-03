@@ -63,7 +63,7 @@ import Select from 'primevue/select';
 import MultiSelect from 'primevue/multiselect';
 import Button from 'primevue/button';
 import FileUpload from 'primevue/fileupload';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watchEffect } from 'vue';
 import { maxLength, minLength, required } from '@vuelidate/validators';
 import useVuelidate from '@vuelidate/core';
 import { Licencia } from '../../models/licencia';
@@ -72,6 +72,11 @@ import { SubtipoSoftware } from '../../models/subtipo_software';
 import { PublicacionesService } from '../../services/gestion-publicaciones/publicaciones';
 import { Tecnologia } from '../../models/tecnologia';
 import { usePublicacionStore } from '../../stores/gestion-publicaciones/publicacion-store';
+import { Software } from '../../models/software';
+
+const props = defineProps<{
+    software: Software | null;
+}>();
 
 const emit = defineEmits<{
     (e: 'siguiente'): void;
@@ -90,9 +95,9 @@ const tecnologias = ref<Tecnologia[]>([]);
 const tipo = ref(null);
 
 const datos = ref({
-    nombre: '',
-    version: '',
-    descripcion: '',
+    nombre: props.software?.nombre || '',
+    version: props.software?.version || '',
+    descripcion: props.software?.descripcion || '',
     licencia: null,
     subtipoSoftware: '',
     tecnologias: [],
@@ -155,5 +160,12 @@ onMounted(async () => {
     licencias.value = await publicacionesService.obtenerLicencias() || [];
     tipos.value = await publicacionesService.obtenerTipos() || [];
     tecnologias.value = await publicacionesService.obtenerTecnologias() || [];
+});
+
+watchEffect(() => {
+    datos.value.nombre = props.software?.nombre || '';
+    datos.value.version = props.software?.version || '';
+    datos.value.descripcion = props.software?.descripcion || '';
+    
 });
 </script>
