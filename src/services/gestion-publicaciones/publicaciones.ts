@@ -1,9 +1,10 @@
+import { Licencia } from "../../models/licencia";
+import { SubtipoSoftware } from "../../models/subtipo_software";
+import { Tecnologia } from "../../models/tecnologia";
+import { TipoSoftware } from "../../models/tipo_software";
 import { AxiosService } from "../axios";
 import { Software } from "../../models/software";
 import { useAuthStore } from "../../stores/gestion-usuario/auth-store";
-import { Licencia } from "../../models/licencia";
-import { TipoSoftware } from "../../models/tipo_software";
-import { Tecnologia } from "../../models/tecnologia";
 
 export interface SoftwareResponse {
     softwares: Software[];
@@ -70,57 +71,53 @@ export class PublicacionesService {
         }
     }
 
-    public async updatePublicacion(id: number, data: Software): Promise<SoftwareResponse | null> {
+    public async getAllPublicaciones() {
         try {
-            const response = await AxiosService.http.put<SoftwareResponse>(`${this.module}/${id}`, data);
+            const response = await AxiosService.http.get(this.module);
             return response.data;
         } catch (error) {
-            console.error(`Error updating publicacion with ID ${id}:`, error);
+            console.error('Error getting publicaciones:', error);
             return null;
         }
     }
 
-    public async deletePublicacion(id: number): Promise<boolean> {
-        try {
-            await AxiosService.http.delete(`${this.module}/${id}`);
-            return true;
-        } catch (error) {
-            console.error(`Error deleting publicacion with ID ${id}:`, error);
-            return false;
-        }
-    }
-
-//Gets para los filtros
     public async obtenerLicencias(): Promise<Licencia[] | null> {
         try {
-            const response = await AxiosService.http.get<LicenciaResponse>(`${this.module}/software/licencias`);
-            return response.data.licencias;
-
+            const response = await AxiosService.http.get<Licencia[]>(`${this.module}/software/licencias`);
+            return response.data;
         } catch (error) {
-            console.error('Error fetching licencias:', error);
+            console.error('Error getting licencias:', error);
             return null;
         }
-    };
+    }
 
     public async obtenerTipos(): Promise<TipoSoftware[] | null> {
         try {
-            const response = await AxiosService.http.get<TipoResponse>(`${this.module}/software/tipos`);
-            return response.data.tipos;
-
+            const response = await AxiosService.http.get<TipoSoftware[]>(`${this.module}/software/tipos`);
+            return response.data;
         } catch (error) {
-            console.error('Error fetching Tipos de software:', error);
+            console.error('Error getting tipos:', error);
             return null;
         }
-    };
+    }
+
+    public async obtenerSubtipos(tipoid: number): Promise<SubtipoSoftware[] | null> {
+        try {
+            const response = await AxiosService.http.get<SubtipoSoftware[]>(`${this.module}/software/subtipos/${tipoid}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error getting subtipos:', error);
+            return null;
+        }
+    }
 
     public async obtenerTecnologias(): Promise<Tecnologia[] | null> {
         try {
-            const response = await AxiosService.http.get<TecnologiaResponse>(`${this.module}/software/tecnologias`);
-            return response.data.tecnologias;
-
+            const response = await AxiosService.http.get<Tecnologia[]>(`${this.module}/software/tecnologias`);
+            return response.data;
         } catch (error) {
-            console.error('Error fetching tecnologias:', error);
+            console.error('Error getting tecnologias:', error);
             return null;
         }
-    };
+    }
 }

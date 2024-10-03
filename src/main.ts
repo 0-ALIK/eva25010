@@ -6,6 +6,8 @@ import PrimeVue from 'primevue/config';
 import { definePreset } from '@primevue/themes';
 import Aura from '@primevue/themes/aura';
 import ToastService from 'primevue/toastservice';
+import ConfirmationService from 'primevue/confirmationservice';
+import DialogService from 'primevue/dialogservice';
 import router from './router';
 import { createPinia } from 'pinia';
 
@@ -38,6 +40,7 @@ const preset = definePreset(Aura, {
             700: '{zinc.700}',
             800: '{zinc.800}',
             900: '{zinc.900}',
+            950: '{zinc.950}'
         },
 
         colorScheme: {
@@ -72,4 +75,6 @@ createApp(App)
     .use(router)
     .use(pinia)
     .use(ToastService)
+    .use(ConfirmationService)
+    .use(DialogService)
     .mount('#app');

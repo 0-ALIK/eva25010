@@ -2,9 +2,9 @@ import { Usuario } from "./usuario";
 import { Licencia } from "./licencia";
 import { SoftwareCategoria } from "./software_categoria";
 import { Evaluacion } from "./evaluacion";
-import { PreguntaCustom } from "./pregunta_custom";
 import { SubtipoSoftware } from "./subtipo_software";
 import { ImagenPreview } from "./imagen_preview";
+import { PreguntaCustom } from "./pregunta_custom";
 
 export interface Software {
     id?: number;

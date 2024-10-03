@@ -13,7 +13,8 @@ export const useAuthStore = defineStore('auth', () => {
     
     function setUsuario(newUser: Usuario): void {
         usuario.value = newUser;
-        localStorage.setItem('usuario', JSON.stringify(newUser));
+        const { correo, id, updatedAt, ...rest } = newUser;
+        localStorage.setItem('usuario', JSON.stringify(rest));
     }
 
     function setToken(newToken: string): void {

@@ -1,8 +1,9 @@
-import { Software_Tecnologia } from "./software_tecnologia";
+import { SoftwareTecnologia } from "./software_tecnologia";
 
-
-export interface Tecnologia{
-    id: string;
+export interface Tecnologia {
+    id: number;
     nombre: string;
-    software_tecnologia: Software_Tecnologia[];
+    softwareTecnologias: SoftwareTecnologia[];
+    createdAt: Date;
+    updatedAt: Date;
 }
