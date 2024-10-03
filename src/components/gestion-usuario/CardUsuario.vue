@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Card unstyled="true" class="flex w-fill flex-col w-fit items-center justify-center bg-surface-900 gap-5 p-8 border border-surface-800 rounded-lg">
+        <Card :unstyled="true" class="flex w-fill flex-col w-fit items-center justify-center bg-surface-900 gap-5 p-8 border border-surface-800 rounded-lg">
             <template #header>
                 <Avatar :image="props.foto" unstyled="true" class="mr-2 w-24" shape="circle" />
             </template>

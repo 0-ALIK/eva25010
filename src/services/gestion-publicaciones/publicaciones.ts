@@ -29,8 +29,8 @@ export class PublicacionesService {
 
     public async obtenerAllPublicaciones(): Promise<Software[] | null> {
         try {
-            const response = await AxiosService.http.get<SoftwareResponse>(this.module);
-            return response.data.softwares;
+            const response = await AxiosService.http.get<Software[]>(this.module + '/software');
+            return response.data;
         } catch (error) {
             console.error('Error fetching publicaciones:', error);
             return null;
@@ -39,7 +39,7 @@ export class PublicacionesService {
 
     public async obtenerPublicacionById(id: number): Promise<Software | null> {
         try {
-            const response = await AxiosService.http.get<Software>(`${this.module}/${id}`);
+            const response = await AxiosService.http.get<Software>(this.module + '/softwares');
             return response.data;
         } catch (error) {
             console.error(`Error fetching publicacion with ID ${id}:`, error);
@@ -47,12 +47,14 @@ export class PublicacionesService {
         }
     }
 
-    public async obtenerPublicacionesByUsuario(): Promise<Software[] | null> {
+    public async obtenerPublicacionesPropias(): Promise<Software[] | null> {
         try {
             const authStore = useAuthStore();
-            const usuario = authStore.getUsuario;
-
-            const response = await AxiosService.http.get(`${this.module}?usuarioId=${usuario?.id}`);
+            const response = await AxiosService.http.get(this.module + '/software/propios', {
+                headers: {
+                    'x-token': authStore.getToken || ''
+                }
+            });
             return response.data;
         } catch (error) {
             console.error('Error obteniendo las publicaciones del usuario:', error);
@@ -72,7 +74,7 @@ export class PublicacionesService {
     }
 
     public async getAllPublicaciones() {
-        try {
+        try {//hacer lo del ID
             const response = await AxiosService.http.get(this.module);
             return response.data;
         } catch (error) {

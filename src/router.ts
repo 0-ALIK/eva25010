@@ -14,17 +14,17 @@ const router = createRouter({
                 
                 {
                     path: "perfil",
-                    component: () => import("./pages/gestion-usuario/Perfil.vue"),
+                    component: () => import("./layouts/PerfilLayout.vue"),
                     meta: { auth: true },
                     children:[
                         {
                             path: "software", //hacer una page para cargar la cargar para poder iterarla
-                            component: () => import('./components/shared/CardSoftware.vue'),
+                            component: () => import('./pages/gestion-publicaciones/SoftwaresPropios.vue'),
                             meta: { auth: true },
                         },
                         {
                             path: "evaluaciones",
-                            component: () => import('./components/gestion-usuario/CardEvaluaciones.vue'),
+                            component: () => import('./pages/evaluaciones/EvaluacionesPropias.vue'),
                             meta: { auth: true },
                         }
                     ]
@@ -52,7 +52,19 @@ const router = createRouter({
                 },
                 {
                     path: "/resultados",
-                    component: () => import('./pages/evaluaciones/Resultados.vue'),
+                    component: () => import('./layouts/ResultadosLayout.vue'),
+                    children:[
+                        {
+                            path: "resultados",
+                            component: () => import('./pages/visualizacion-resultados/Resultados.vue'),
+                            meta: { auth: true },
+                        },
+                        {
+                            path: "comentarios",
+                            component: () => import('./pages/visualizacion-resultados/Comentarios.vue'),
+                            meta: { auth: true },
+                        }
+                    ]
                 }
             ]
         },
