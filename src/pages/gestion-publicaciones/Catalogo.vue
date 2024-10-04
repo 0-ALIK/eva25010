@@ -11,7 +11,7 @@
         </section>
         
         <section class="w-full">
-            <Filtros />
+            <!-- <Filtros /> -->
         </section>
 
     </div>

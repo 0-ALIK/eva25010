@@ -1,5 +1,7 @@
 <template>
 	<div>
+		<Loading :visible="loadingSubmit" />
+
 		<h2 v-if="publicacion" class="font-bold">Evaluando {{ publicacion?.nombre }}</h2>
 		<Skeleton v-else height="2rem"></Skeleton>
 
@@ -68,6 +70,7 @@
 <script setup lang="ts">
 import 'primeicons/primeicons.css'
 import Skeleton from 'primevue/skeleton';
+import Loading from '../../components/shared/Loading.vue';
 import Tabs from 'primevue/tabs';
 import TabList from 'primevue/tablist';
 import Button from 'primevue/button';
@@ -78,18 +81,25 @@ import TabPanels from 'primevue/tabpanels';
 import TabPanel from 'primevue/tabpanel';
 import { computed, onMounted, ref } from 'vue';
 import { PublicacionesService } from '../../services/gestion-publicaciones/publicaciones';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { Software } from '../../models/software';
 import { Categoria } from '../../models/categoria';
 import { EvaluacionesService } from '../../services/evaluaciones/evaluaciones';
 import { Subcategoria } from '../../models/subcategoria';
 import { PreguntaCustom } from '../../models/pregunta_custom';
+import { useToastStore } from '../../stores/shared/toast-store';
 
 const publicacionesService = new PublicacionesService();
 
 const evaluacionesService = new EvaluacionesService();
 
+const toast = useToastStore();
+
+const loadingSubmit = ref(false);
+
 const route = useRoute();
+
+const router = useRouter();
 
 const publicacion = ref<Software | null>(null);
 
@@ -180,9 +190,32 @@ async function cargarPreguntasCustom() {
 	});
 }
 
-function onClickEnviar() {
-	console.log(respuestas.value);
-	console.log(respuestasCustom.value);
+async function onClickEnviar() {
+	loadingSubmit.value = true;	
+
+	console.log('Respuestas:', respuestas.value);
+	console.log('Respuestas custom:', respuestasCustom.value);
+	
+
+	const data: any = {
+		respuestas: respuestas.value,
+		respuestasCustom: respuestasCustom.value
+	};
+
+	console.log(data);
+	
+
+	const respuesta = await evaluacionesService.evaluar(data, publicacion.value?.id);
+
+	loadingSubmit.value = false;
+
+	if (respuesta) {
+		toast.showToast('success', 'Éxito', 'Evaluación enviada correctamente.');
+		router.push('/software/'+publicacion.value?.id);
+		return;
+	}
+
+	toast.showToast('error', 'Error', 'Error al enviar la evaluación.');
 }
 
 onMounted(async () => {
