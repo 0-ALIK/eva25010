@@ -4,8 +4,8 @@
             <template #title ><h3 class="text-primary-400 font-medium"> Subir producto de software </h3> </template>
             <template #content>
                 <p class="m-0">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
-                    quas!
+                    ¡Comparte tu software con el mundo!
+¿Tienes una aplicación que deseas que otros evalúen? Sube tu software y permite que nuestra comunidad lo valore según los estándares ISO. Tu producto merece ser visto y revisado. Con cada evaluación, no solo recibirás valiosos comentarios, sino que también contribuirás a elevar la calidad del software en el mercado. ¡No esperes más, súbelo ahora y haz que tu trabajo brille!
                 </p>
             </template>
             <template #footer>

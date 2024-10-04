@@ -10,7 +10,7 @@ export class EvaluacionesService{
     private module: string = '/evaluaciones';
     authStore = useAuthStore();
 
-    public async obtenerEvaluacionesPropias(): Promise<Evaluacion[] | null> {
+    public async obtenerEvaluacionesPropias(): Promise<any | null> {
         try {
             const authStore = useAuthStore();
             const response = await AxiosService.http.get(this.module + '/propias',{

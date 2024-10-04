@@ -12,7 +12,7 @@
             <CardPromedio :valor="0" titulo="Evaluaciones Totales Recibidas"/>
             <CardPromedio :valor="promedioFinal" titulo="Promedio Final"/>
             <CardPromedioCategoria :categoria="selectedCategoria?.nombre || 'N/A'" :valor="promedioFinalCategoria"/>
-            <CardPromedioSub :categoria="selectedSubcategoria?.nombre || 'N/A'" :valor="promedioFinalSubCategoria"/>
+            <CardPromedioSub :subcategoria="selectedSubcategoria?.nombre || 'N/A'" :valor="promedioFinalSubCategoria"/>
         </section>
 
         <section class="flex gap-4 w-full">

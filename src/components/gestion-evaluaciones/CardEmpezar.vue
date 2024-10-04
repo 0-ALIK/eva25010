@@ -4,8 +4,8 @@
             <template #title ><h3 class="text-primary-400 font-medium"> Empezar a Evaluar </h3> </template>
             <template #content>
                 <p class="m-0">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
-                    quas!
+                    ¡Comienza a evaluar software ahora!
+Tu opinión puede marcar la diferencia. Únete a nosotros y empieza a evaluar aplicaciones de acuerdo con las normas ISO. Contribuye con tus valoraciones y ayuda a otros a tomar decisiones informadas. No hay mejor momento que ahora para compartir tu experiencia. ¡Empieza a evaluar y transforma la manera en que usamos el software!
                 </p>
             </template>
             <template #footer>

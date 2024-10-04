@@ -47,20 +47,21 @@ export class PublicacionesService {
         }
     }
 
-    public async obtenerPublicacionesPropias(): Promise<Software[] | null> {
+    public async obtenerPublicacionesPropias(softwareId: any): Promise<Software[] | null> {
         try {
             const authStore = useAuthStore();
-            const response = await AxiosService.http.get(this.module + '/software/propios', {
+            const response = await AxiosService.http.get(`${this.module}/software/propios/${softwareId}`, {
                 headers: {
                     'x-token': authStore.getToken || ''
                 }
             });
-            return response.data;
+            return response.data; 
         } catch (error) {
             console.error('Error obteniendo las publicaciones del usuario:', error);
             return null;
         }
     }
+    
 
     
     public async createPublicacion(data: Software): Promise<SoftwareResponse | null> {
