@@ -46,10 +46,10 @@ export class PublicacionesService {
         }
     }
 
-    public async obtenerPublicacionesPropias(softwareId: any): Promise<Software[] | null> {
+    public async obtenerPublicacionesPropias(): Promise<Software[] | null> {
         try {
             const authStore = useAuthStore();
-            const response = await AxiosService.http.get(`${this.module}/software/propios/${softwareId}`, {
+            const response = await AxiosService.http.get(`${this.module}/software/propios`, {
                 headers: {
                     'x-token': authStore.getToken || ''
                 }

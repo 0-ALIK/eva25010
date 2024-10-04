@@ -1,6 +1,6 @@
 <template>
     <div class="h-[97%] p-space flex flex-col bg-surface-900 border border-surface-800 rounded-lg justify-start gap-6 items-center w-fit fixed">
-        <Avatar image="/logo.png" class="mr-2 bg-black rounded-full w-44 h-44 align-middle text-center content-center items-center" unstyled="true" size="xlarge" shape="circle" />
+        <Avatar :image="usuario?.foto || '/user_placeholder.jpg'" class="mr-2 bg-black rounded-full w-44 h-44 align-middle text-center content-center items-center" :unstyled="true" size="xlarge" shape="circle" />
         <article class="flex gap-4 bg-primary-400 p-3 rounded-md "> 
             <h4>{{ usuario?.nombre || 'Nombre' }}</h4>
             <h4>{{ usuario?.apellido || 'Apellido' }}</h4>

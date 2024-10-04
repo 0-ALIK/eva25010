@@ -23,16 +23,13 @@ import { onMounted, ref } from 'vue';
 import CardSoftware from '../../components/shared/CardSoftware.vue';
 import { PublicacionesService } from '../../services/gestion-publicaciones/publicaciones';
 import { Software } from '../../models/software';
-import { useAuthStore } from '../../stores/gestion-usuario/auth-store';
 
 const publicaciones = ref<Software[]>([]);
-const authStore = useAuthStore();
-const softwareId = authStore.getUsuario?.software; 
 
-async function loadPublicaciones(softwareId: any) {
+async function loadPublicaciones() {
   try {
     const publicacionesService = new PublicacionesService();
-    const response = await publicacionesService.obtenerPublicacionesPropias(softwareId);
+    const response = await publicacionesService.obtenerPublicacionesPropias();
 
     if (response) {
         publicaciones.value = response;
@@ -48,10 +45,8 @@ async function loadPublicaciones(softwareId: any) {
 onMounted(async () => {
   
 
-  if (softwareId) {
-    await loadPublicaciones(softwareId); //???
-  } else {
-    console.error('Software ID no disponible');
-  }
+  
+  await loadPublicaciones(); 
+  
 });
 </script>
