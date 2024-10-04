@@ -8,6 +8,7 @@ import { Subcategoria } from "../../models/subcategoria";
 
 export class EvaluacionesService{ 
     private module: string = '/evaluaciones';
+    authStore = useAuthStore();
 
     public async obtenerEvaluacionesPropias(): Promise<Evaluacion[] | null> {
         try {
@@ -36,14 +37,28 @@ export class EvaluacionesService{
     };
 
 
-public async obtenerSubCategorias(categoriaId: string): Promise<Subcategoria[] | null> {
-    try {
-        const response = await AxiosService.http.get(`/evaluaciones/subcategorias/${categoriaId}`);
-        return response.data; 
-    } catch (error) {
-        console.error('Error al obtener las subcategorías:', error);
-        return null;
+    public async obtenerSubCategorias(categoriaId: string): Promise<Subcategoria[] | null> {
+        try {
+            const response = await AxiosService.http.get(`/evaluaciones/subcategorias/${categoriaId}`);
+            return response.data; 
+        } catch (error) {
+            console.error('Error al obtener las subcategorías:', error);
+            return null;
+        }
+    }; 
+
+    public async obtenerPreguntasPorSubcategoria(subcategoriaid: string): Promise<any | null> {
+        try {
+            const response = await AxiosService.http.get(`${this.module}/preguntas/${subcategoriaid}`, {
+                headers: {
+                    'x-token': this.authStore.getToken
+                } 
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching preguntas:', error);
+            return null;
+        }
     }
-}
 
 }

@@ -60,9 +60,9 @@ export class ResultadosService {
         };
     };
 
-    public async obtenerRespuestasPreguntas(softwareid: string, preguntaId: string): Promise<any | null> {
+    public async obtenerRespuestasPreguntas(softwareId: string, preguntaId: number): Promise<any | null> {
         try {
-            const response = await AxiosService.http.get(`${this.module}/preguntas/total/${softwareid}/${preguntaId}`, {
+            const response = await AxiosService.http.get(`${this.module}/preguntas/total/${softwareId}/${preguntaId}`, {
                 headers: {
                     'x-token': authStore.getToken
                 } 
@@ -73,5 +73,7 @@ export class ResultadosService {
             return null;
         };
     };
+
+    
 
 }

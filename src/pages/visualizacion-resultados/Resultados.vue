@@ -2,11 +2,7 @@
     <div class="flex flex-col gap-2">
         <section class="flex justify-start">
             <form class="p-2 flex gap-4">
-                <Select v-if="!loadingCategorias" v-model="selectedCategoria" 
-                :options="categorias" 
-                optionLabel="nombre" 
-                placeholder="Categoría" 
-                class="w-full md:w-56" />
+                <Select v-if="!loadingCategorias" v-model="selectedCategoria" :options="categorias" optionLabel="nombre" placeholder="Categoría" class="w-full md:w-56" />
                 <p v-else>Cargando categorías...</p>    
 
             <Select v-model="selectedSubcategoria" :options="subcategorias" optionLabel="nombre" placeholder="Subcategorías" class="w-full md:w-56" :disabled="!selectedCategoria" />          
@@ -20,8 +16,10 @@
         </section>
 
         <section class="flex gap-4 w-full">
-            <GraficaBarras />
-            <GraficaBarras />
+            <!-- Solo renderizar si selectedSubcategoria no es null -->
+            <GraficaBarras v-if="selectedSubcategoria" :subcategoria="selectedSubcategoria" /> 
+            <GraficaBarras v-if="selectedSubcategoria" :subcategoria="selectedSubcategoria" /> 
+
         </section>
     </div>
 </template>
@@ -60,7 +58,7 @@ watch(selectedCategoria, async (newCategoria) => {
 
 async function loadPromedioFinal() {
     try {
-        const response = await resultadosService.obtenerPromedioFinal('123');
+        const response = await resultadosService.obtenerPromedioFinal('0');
         promedioFinal.value = response;
         console.log('Promedo final:  ', promedioFinal.value);
     } catch (error) {
@@ -70,7 +68,7 @@ async function loadPromedioFinal() {
 
 async function loadTotalEvaluaciones() {
     try {
-        const response = await resultadosService.obtenerTotalEvaluaciones('123');
+        const response = await resultadosService.obtenerTotalEvaluaciones('0');
         totalEvaluaciones.value = response;
         console.log('Total eva:  ', totalEvaluaciones.value);
     } catch (error) {
