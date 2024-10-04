@@ -26,11 +26,11 @@
 import Avatar from 'primevue/avatar'
 import Button from 'primevue/button';
 import { useAuthStore } from '../../stores/gestion-usuario/auth-store';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import EditarUsuario from './EditarUsuario.vue';
 
 const authStore = useAuthStore();
-const usuario = ref(authStore.getUsuario);
+const usuario = computed(() => authStore.getUsuario);
 
 const isVisible = ref(false);
 

@@ -2,7 +2,7 @@
     <div class="flex flex-col h-screen">
         <div class="flex justify-end flex-row-reverse gap-4  h-full">
             <section class="flex flex-col gap-2 mt-2 ">
-                <Tabs  value="/software" class="w-fit">
+                <Tabs  value="/resultados" class="w-fit">
                     <h1>Resultados</h1>
   
                     <TabList class="border border-surface-800 rounded-md px-1 bg-surface-900" >
@@ -11,11 +11,11 @@
                     </TabList>
                 </Tabs>
                 <div v-if="loading">
-                    <LoadSkeleton/>
+                    <RouterView />
                 </div>
                 <!--Cargarlos en bucle-->
                 <div v-else>
-                    <RouterView />
+                    <LoadSkeleton/>
                 </div>
             </section>
         </div>

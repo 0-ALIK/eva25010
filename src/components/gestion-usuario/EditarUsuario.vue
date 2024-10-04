@@ -40,6 +40,7 @@ import { useAuthStore } from '../../stores/gestion-usuario/auth-store';
 
 const props = defineProps<{ visible: boolean }>();
 const emit = defineEmits(['update:visible']);
+
 const usuario = ref({
     nombre: '',
     apellido: '',
@@ -57,23 +58,16 @@ async function guardarCambios() {
     try {
         console.log('Funciona');
 
-        const authStore = useAuthStore();
-        const usuario = authStore.getUsuario; // Asegúrate de que esto esté bien definido
-        const usuarioData = usuario ? usuario : {}; // Agrega una verificación aquí
+        const authStore = useAuthStore()
         const usuarioService = new AuthService();
         const formData = new FormData();
-        formData.append('nombre', usuarioData.nombre || '');
-        formData.append('apellido', usuarioData.apellido || '');
-        formData.append('profesion', usuarioData.profesion?.nombre || '');
-        formData.append('cargo', usuarioData.cargo || '');
-        console.log('Formulario de datos antes de enviar:', formData);
+        formData.append('nombre', usuario.value.nombre || '');
+        formData.append('apellido', usuario.value.apellido || '');
+        formData.append('profesion', usuario.value.profesion || '');
+        formData.append('cargo', usuario.value.cargo || '');
 
         const response = await usuarioService.actualizarDatosUsuario(formData);
-        console.log(authStore.getUsuario);
-        console.log('response: ', response);
-        console.log('Respuesta después de la llamada al servicio:', response);
- // Asegúrate de ver qué está retornando
-
+        console.log('Datos del usuario en el local: ', authStore.getUsuario);
         if (response) {
             
             authStore.setUsuario(response); 
@@ -87,10 +81,10 @@ async function guardarCambios() {
     } catch (error) {
         toastStore.showToast('error', 'Error', 'Error al actualizar los datos.');
         console.error('Error al cargar los datos:', error);
+    } finally {
+        cerrarModal(); 
     }
 
     cerrarModal(); 
 }
-
-
 </script>
