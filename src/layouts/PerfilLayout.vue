@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col h-screen">
         <div class="flex justify-end flex-row-reverse gap-4  h-full">
-            <section class="flex flex-col gap-2 mt-2 ">
+            <section class="flex flex-col gap-2 mt-2 ml-64">
                 <Tabs  value="/software" class="w-fit">
                     <h1>Perfil de Usuario</h1>
 
@@ -19,7 +19,7 @@
                 </div>
             </section>
 
-            <section class="">
+            <section class="relative">
                 <CardPerfil></CardPerfil>
             </section>
         </div>

@@ -1,10 +1,10 @@
 <template>
-    <div  class="w-fit h-fit bg-surface-900 flex rounded-md p-3 gap-4 justify-start items-center border border-surface-800 shadow-2xl ">
-        <RouterLink :to="'/software'">
-
+    <RouterLink :to="'/software/'+props.id">
+        <div class="bg-surface-900 flex rounded-md p-3 gap-4 justify-start items-center border border-surface-800 shadow-2xl ">
             <div class="overflow-hidden rounded-lg w-9/12">
                 <Image :src="props.portada" alt="Image" width="" preview class=" h-auto"/>
             </div>
+
 
             <article class="flex flex-col gap-2" >
                 <div class="flex justify-between "><!--Nombre, fecha-->
@@ -25,8 +25,8 @@
                 <Button v-if="authStore && route.path === '/perfil' " label="editar" icon="pi pi-pen-to-square"/>
                 <Button v-else label="evaluar" icon="pi pi-chevron-right" icon-pos="right"/>
             </section>
-        </RouterLink>
-    </div>
+        </div>
+    </RouterLink>
 </template>
 
 <script setup lang="ts">

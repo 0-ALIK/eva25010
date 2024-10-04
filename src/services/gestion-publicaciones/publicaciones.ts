@@ -39,10 +39,9 @@ export class PublicacionesService {
 
     public async obtenerPublicacionById(id: number): Promise<Software | null> {
         try {
-            const response = await AxiosService.http.get<Software>(this.module + '/softwares');
+            const response = await AxiosService.http.get<Software>(`${this.module}/software/obtener/${id}`);
             return response.data;
         } catch (error) {
-            console.error(`Error fetching publicacion with ID ${id}:`, error);
             return null;
         }
     }
@@ -64,12 +63,17 @@ export class PublicacionesService {
     
 
     
-    public async createPublicacion(data: Software): Promise<SoftwareResponse | null> {
+    public async createPublicacion(formData: FormData): Promise<any> {
         try {
-            const response = await AxiosService.http.post<SoftwareResponse>(this.module, data);
+            const authStore = useAuthStore();
+            const response = await AxiosService.http.post(this.module+'/software', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'x-token': authStore.getToken || ''
+                }
+            });
             return response.data;
         } catch (error) {
-            console.error('Error creating publicacion:', error);
             return null;
         }
     }
@@ -80,6 +84,21 @@ export class PublicacionesService {
             return response.data;
         } catch (error) {
             console.error('Error getting publicaciones:', error);
+            return null;
+        }
+    }
+
+    public async obtenerPublicacionPropia(id: number): Promise<Software | null> {
+        try {
+            const authStore = useAuthStore();
+
+            const response = await AxiosService.http.get<Software>(`${this.module}/software/propios/${id}`, {
+                headers: {
+                    'x-token': authStore.getToken || ''
+                }
+            });
+            return response.data;
+        } catch (error) {
             return null;
         }
     }

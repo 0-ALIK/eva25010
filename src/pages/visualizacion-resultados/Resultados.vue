@@ -34,6 +34,9 @@ import { ref, onMounted, watch } from 'vue';
 import { ResultadosService } from '../../services/visualizacion-resultados/resultados';
 import { EvaluacionesService } from '../../services/gestion-evaluaciones/evaluaciones';
 import GraficaBarras from '../../components/visualizacion-resultados/GraficaBarras.vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 
 const categorias = ref<Categoria[]>([]);
 const subcategorias = ref<Subcategoria[]>([]);
@@ -70,7 +73,10 @@ async function loadPromedioFinal() {
 
 async function loadTotalEvaluaciones() {
     try {
-        const response = await resultadosService.obtenerTotalEvaluaciones('0');
+        const { id } = route.params;
+        const response = await resultadosService.obtenerTotalEvaluaciones(id.toString());
+        console.log('Response:', response);
+        
         totalEvaluaciones.value = response;
         console.log('Total eva:  ', totalEvaluaciones.value);
     } catch (error) {
