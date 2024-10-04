@@ -34,7 +34,9 @@
     
                 <!-- session activa -->
                 <div v-if="sessionActive" class="flex flex-col gap-2 items-center">
-                    <Avatar :image="usuario?.foto || '/user_placeholder.jpg'" size="large" shape="circle" />
+                    <RouterLink to="/perfil">
+                        <Avatar :image="usuario?.foto || '/user_placeholder.jpg'" size="large" shape="circle" />
+                    </RouterLink>
                     <Button icon="pi pi-power-off" text @click="onClickLogout" />
                 </div>
             </template>            
