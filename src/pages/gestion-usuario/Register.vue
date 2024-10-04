@@ -1,6 +1,6 @@
 <template>
     <div class="h-screen w-screen overflow-hidden bg-main bg-cover bg-no-repeat">
-        <div class="flex justify-center align-middle items-center">
+        <div class="flex justify-center align-middle items-center py-[4%]">
             <form @submit.prevent="enviarDatos"  class="m-inner w-fit flex flex-col items-center p-space bg-gray-950/50 rounded-2xl border border-l-gray-500 border-t-gray-300 border-b-gray-900 border-r-gray-700 shadow-2xl backdrop-blur-sm ">
                 <h1 class=" pt-14 pb-4 pl-6 m-5 inline-block">Registro</h1>
                 <div class="flex p-space">
@@ -75,7 +75,7 @@
             <article class="p-space gap-4 flex flex-col h-fit m-outer w-fit bg-gray-950/50 rounded-2xl border border-l-gray-500 border-t-gray-300 border-b-gray-900 border-r-gray-700 shadow-2xl backdrop-blur-sm ">
                 <h2>Bienvenido a EVA 25010</h2>
                 <p class="text-gray-400 text-xs">
-                    Únete a nuestra plataforma de evaluación de software cumpliendo con las normativas ISO. Al registrarte, podrás crear una cuenta que te permitirá participar en la evaluación de diferentes aplicaciones, compartir tus opiniones y acceder a recursos exclusivos. Completa el formulario de registro con tu información personal y crea una contraseña segura para comenzar a explorar y contribuir en nuestra comunidad de evaluadores. Tu opinión cuenta, y juntos podemos mejorar la calidad del software que utilizamos.                </p>
+                    Únete a nuestra plataforma de evaluación de software cumpliendo con las normativas ISO. Al registrarte, podrás crear una cuenta que te permitirá participar en la evaluación de diferentes aplicaciones, compartir tus opiniones y acceder a recursos exclusivos. Completa el formulario de registro con tu información personal y crea una contraseña segura para comenzar a explorar y contribuir en nuestra comunidad de evaluadores. Tu opinión cuenta, y juntos podemos mejorar la calidad del software que utilizamos.</p>
                 <small>¿Ya tienes cuenta? <a href="/login" class="text-primary-500 underline decoration-solid"> Iniciar sesión </a></small>
             </article>
         </div>

@@ -1,5 +1,4 @@
 import { AxiosService } from "../axios";
-import { Evaluacion } from "../../models/evaluacion";
 import { useAuthStore } from "../../stores/gestion-usuario/auth-store";
 import { Categoria } from "../../models/categoria";
 import { Subcategoria } from "../../models/subcategoria";

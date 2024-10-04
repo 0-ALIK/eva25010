@@ -1,15 +1,31 @@
 <template>
-    <div class="mx-outer flex flex-col gap-4">
+    <div class="mx-outer flex flex-col gap-2">
         <h2 class="p-1">Home</h2>
-        
         <section class="flex h-fit w-full gap-4">
-            <CardEmpezar/>
-            <CardSubir/>
+            <CardEmpezar class="border border-surface-800 rounded-xl p-1 bg-surface-900"/>
+            <CardSubir class="border border-surface-800 rounded-xl p-1 bg-surface-900"/>
         </section>
 
-        <section class="bg-surface-900 rounded-lg px-4 pb-4">
+        <section class="bg-surface-900 border border-surface-800 rounded-lg px-4 pb-4">
             <h4 class="font-semibold p-1"> Software´s mas populares </h4>
-            <CardSoftwarePopulares/><!--Props!!!-->
+            <ul>
+                <li v-for="publicacion in publicacionesRecientes" :key="publicacion.id">
+                    <CardSoftwarePopulares
+                        :id="publicacion.id"
+                        :portada="publicacion.portada"
+                        :nombre="publicacion.nombre"
+                        :subtipo-software="publicacion.subtipoSoftware"
+                        :created-at="publicacion.createdAt"
+                        :descripcion="publicacion.descripcion"
+                        :licencia="publicacion.licencia"
+                        :version="publicacion.version"
+                        :enlace="publicacion.enlace"
+                        :foto="publicacion.usuario.foto"
+                        :nombreUsuario="publicacion.usuario.nombre"
+                        :ApellidoUsuario="publicacion.usuario.apellido"
+                    />
+                </li>
+            </ul>
         </section>
 
         <section class="flex h-full justify-center items-center gap-2 ">
@@ -67,6 +83,7 @@ import { AuthService } from '../../services/gestion-usuario/auth';
 
 const publicaciones = ref<Software[]>([]);
 const usuarios = ref<Usuario[]>([]);
+const publicacionesRecientes = ref<any[]>([]);
 
 async function loadPublicaciones() {
   try {
@@ -75,7 +92,13 @@ async function loadPublicaciones() {
 
     if (response) {
         publicaciones.value = response;
-      console.log('Publicaciones del usuario:', publicaciones.value);
+
+        publicacionesRecientes.value = publicaciones.value
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .slice(0, 1);
+
+        console.log('Publicaciones más recientes:', publicacionesRecientes.value);
+        console.log('Publicaciones: ', publicaciones.value);
     } else {
         console.error('No se encontraron publicaciones.');
     }

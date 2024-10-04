@@ -36,7 +36,7 @@ const evaluacionesService = new EvaluacionesService();
 
 watch(selectedPregunta, async (newPregunta) => {
     if (newPregunta) {
-        await loadRespuestas(/* softwareId */, newPregunta.id);
+        //await loadRespuestas(/* softwareId */, newPregunta.id);
         chartData.value = setChartData(); 
     }
 });
@@ -128,9 +128,9 @@ const setChartOptions = () => {
 
 
 onMounted(async () => {
-    if (props.subcategoria && props.subcategoria.id) {
-        await loadPreguntas(props.subcategoria.id); // Cargar preguntas
-    };
+    //if (props.subcategoria && props.subcategoria.id) {
+        //await loadPreguntas(props.subcategoria.id); // Cargar preguntas
+    //};
     chartData.value = setChartData();
     chartOptions.value = setChartOptions();
 });

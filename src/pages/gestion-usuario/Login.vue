@@ -1,7 +1,7 @@
 <template>
     <div
-        class="h-screen w-screen overflow-hidden bg-main bg-cover bg-no-repeat"
-    >   <div class="flex justify-center align-middle items-center p-[10%]">
+        class="h-screen w-screen overflow-hidden bg-main bg-cover bg-no-repeat">   
+        <div class="flex flex-row-reverse justify-center align-middle items-center p-[4%]">
             <article class="p-space gap-4 flex flex-col h-fit m-outer w-[550px] bg-gray-950/50 rounded-2xl border border-l-gray-500 border-t-gray-300 border-b-gray-900 border-r-gray-700 shadow-2xl backdrop-blur-sm ">
                 <h2 class="text-4xl">Bienvenido a EVA 25010</h2>
                 <p class="text-gray-400 text-sm">
@@ -9,7 +9,7 @@
                 <p class="text-base">¿No tienes cuenta? <a href="/Registro" class="text-primary-500 underline decoration-solid"> Registrate Ahora!</a></p>
             </article>
             <form @submit.prevent="enviarDatos"  class="m-inner w-[600px] flex flex-col items-center p-space bg-gray-950/50 rounded-2xl border border-l-gray-500 border-t-gray-300 border-b-gray-900 border-r-gray-700 shadow-2xl backdrop-blur-sm ">
-                <h1 class=" pt-14 pb-10 pl-6 m-5 inline-block text-7xl">Iniciar Sesion</h1>
+                <h1 class=" pt-14 pb-4 pl-6 m-5 inline-block text-5xl">Iniciar Sesion</h1>
                 <section class="flex justify-between flex-col gap-4 px-space">
                     <article class="text-xl pb-10"><!--correo de usuario-->
                         <label for="username">Nombre de Usuario</label>
