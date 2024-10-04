@@ -31,7 +31,8 @@ export class ResultadosService {
             console.error('Error fetching:', error);
             return null;
         }
-    }
+    };
+
     public async obtenerPromedioCategoria(softwareid: string, categoria: string): Promise<any | null> {
         try {
             const response = await AxiosService.http.get(`${this.module}/promedio-final/categoria/${softwareid}/${categoria}`, {
@@ -46,9 +47,9 @@ export class ResultadosService {
         };
     };
 
-    public async obtenerPromedioSubCategoria(softwareid: string, categoriaId: string): Promise<any | null> {
+    public async obtenerPromedioSubCategoria(softwareid: string, subcategoriaId: string): Promise<any | null> {
         try {
-            const response = await AxiosService.http.get(`${this.module}/promedio-final/subcategoria/${softwareid}/${categoriaId}`, {
+            const response = await AxiosService.http.get(`${this.module}/promedio-final/subcategoria/${softwareid}/${subcategoriaId}`, {
                 headers: {
                     'x-token': authStore.getToken
                 } 
