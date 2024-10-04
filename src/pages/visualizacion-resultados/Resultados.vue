@@ -78,11 +78,12 @@ async function loadTotalEvaluaciones() {
     }
 }
 
+
 async function loadSubCategorias(categoriaId: string) {
     try {
         const response = await evaluacionesService.obtenerSubCategorias(categoriaId);
         if (response) {
-            subcategorias.value = response; // Esta línea debería funcionar si la API retorna la estructura correcta
+            subcategorias.value = response;
             console.log('Subcategorías cargadas:', subcategorias.value);
         } else {
             console.error('No se encontraron subcategorías.');

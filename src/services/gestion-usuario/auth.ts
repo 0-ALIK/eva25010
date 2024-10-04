@@ -11,11 +11,11 @@ export interface UsuarioResponse {
     usuarios: Usuario[];
 }
 
-const authStore = useAuthStore();
 
 export class AuthService {
-
+    
     private module: string = '/gestion-usuario';
+    authStore = useAuthStore();
     
     public async login(correo: string, password: string): Promise<AuthResponse | null> {
         try {
@@ -76,7 +76,7 @@ export class AuthService {
                 formData,  
                 {
                     headers: {
-                        'x-token': authStore.getToken,  
+                        'x-token': this.authStore.getToken,  
                         'Content-Type': 'multipart/form-data'
                     }
                 }

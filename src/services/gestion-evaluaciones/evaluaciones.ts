@@ -36,11 +36,10 @@ export class EvaluacionesService{
     };
 
 
-// Servicio de Evaluaciones (evaluaciones-service.ts)
 public async obtenerSubCategorias(categoriaId: string): Promise<Subcategoria[] | null> {
     try {
         const response = await AxiosService.http.get(`/evaluaciones/subcategorias/${categoriaId}`);
-        return response.data; // Asegúrate de que la respuesta sea la correcta
+        return response.data; 
     } catch (error) {
         console.error('Error al obtener las subcategorías:', error);
         return null;
