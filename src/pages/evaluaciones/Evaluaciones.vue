@@ -1,49 +1,119 @@
 <template>
-	<div class="min-h-screen flex flex-col items-center justify-center mb-4">
-		<div class="flex justify-between items-center mb-4">
-			<Button icon="pi pi-chevron-right" aria-label="Save" />
-			<h2 class="text-lg border-b-4 border-teal-500 w-full p-5 items-center">categoria</h2>
-			<Button icon="pi pi-chevron-left" aria-label="Save" />
-		</div>
+	<div>
+		<h2 v-if="publicacion" class="font-bold">Evaluando {{ publicacion?.nombre }}</h2>
+		<Skeleton v-else height="2rem"></Skeleton>
 
-		<div class="w-[65%] h-fit bg-surface-900 flex flex-col rounded-md p-3 gap-4 justify-start items-center border border-surface-800 shadow-2xl ">
-			<div class="mt-[60px] border-b-2 border-teal-500 w-[80%] flex flex-col items-center">
-				<h1>Preguntas</h1>
-			</div>
-			<div class="border border-teal-500 p-4 rounded-lg mt-[20px]">
-				<h3 class="mb-4">Preguntas</h3>
-				<div class="mb-2 text-teal-500">
-					<label>
-						Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt, quisquam eos. In sunt ipsa officia quidem sequi molestiae ipsam minus illo quos, nam rem voluptate, dolor nisi optio vel? Ea.
-					</label>
+
+		<div class="bg-surface-900 p-5 rounded-md border border-surface-800">
+			<div class="flex items-center gap-4 mb-4">
+				<Button label="Enviar formulario" class="p-button-success" :disabled="respondidas < Object.values(respuestas).length || respondidasCustom < Object.values(respuestasCustom).length" @click="onClickEnviar" />
+				<div>
+					<p class="font-bold">Preguntas respondidas: {{ respondidas }}/{{ Object.values(respuestas).length }}</p>
+					<p class="font-bold">Preguntas custom respondidas: {{ respondidasCustom }}/{{ Object.values(respuestasCustom).length }}</p>
 				</div>
 			</div>
+			<Tabs value="0">
+				<TabList>
+					<Tab v-for="(categoria, index) in categorias" :value="index" :key="categoria.id">{{ categoria.nombre }}</Tab>
+				</TabList>
+				<TabPanels>
+					<TabPanel v-for="(categoria, index) in categorias" :value="index" :key="categoria.id">
+						<div>
+							<div v-for="subcategoria in preguntas[categoria.id]" :key="subcategoria.id">
+								<h3 class="font-bold mb-4">{{ subcategoria.nombre }}</h3>
+								<div v-for="pregunta in subcategoria.preguntas" :key="pregunta.id" class="mb-4 p-2 rounded-md">
+									<p class="mb-2 font-bold">{{ pregunta.descripcion }}</p>
 
-			<div class="flex justify-between mt-4 mb-[30px]">
-				<Button label="Regresar" icon="pi pi-chevron-left" class="bg-teal-500 px-4 py-2 rounded-md m-10" />
-				<Button label="Siguiente" icon="pi pi-chevron-right" class="bg-teal-500 px-4 py-2 rounded-md m-10" />
-			</div>
+									<div class="flex gap-1">
+										<Rating v-model="respuestas[pregunta.id]" :unstyled="true" class="flex text-yellow-500 flex-col" />
+										<section>
+											<p>Muy desacuerdo</p>
+											<p>desacuerdo</p>
+											<p>Neutral</p>
+											<p>De acuerdo</p>
+											<p>Muy de acuerdo</p>
+										</section>
+									</div>
+									
+								</div>
+							</div>
+						</div>
+						
+						<Divider v-if="obtenerPreguntaCustom(categoria.id)" align="center" type="solid">
+    						<b>Pregunta custom</b>
+						</Divider>
 
+						<div v-if="obtenerPreguntaCustom(categoria.id)" class="mb-4 p-2 rounded-md">
+							<p class="mb-2 font-bold">{{ obtenerPreguntaCustom(categoria.id)?.descripcion }}</p>
+
+							<div class="flex gap-1">
+								<Rating v-model="respuestasCustom[ obtenerPreguntaCustom(categoria.id)!.id ]" :unstyled="true" class="flex text-yellow-500 flex-col" />
+								<section>
+									<p>Muy desacuerdo</p>
+									<p>desacuerdo</p>
+									<p>Neutral</p>
+									<p>De acuerdo</p>
+									<p>Muy de acuerdo</p>
+								</section>
+							</div>
+							
+						</div>
+					</TabPanel>
+				</TabPanels>
+			</Tabs>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
 import 'primeicons/primeicons.css'
+import Skeleton from 'primevue/skeleton';
+import Tabs from 'primevue/tabs';
+import TabList from 'primevue/tablist';
 import Button from 'primevue/button';
-import { onMounted, ref } from 'vue';
+import Divider from 'primevue/divider';
+import Rating from 'primevue/rating';
+import Tab from 'primevue/tab';
+import TabPanels from 'primevue/tabpanels';
+import TabPanel from 'primevue/tabpanel';
+import { computed, onMounted, ref } from 'vue';
 import { PublicacionesService } from '../../services/gestion-publicaciones/publicaciones';
 import { useRoute } from 'vue-router';
 import { Software } from '../../models/software';
 import { Categoria } from '../../models/categoria';
+import { EvaluacionesService } from '../../services/evaluaciones/evaluaciones';
+import { Subcategoria } from '../../models/subcategoria';
+import { PreguntaCustom } from '../../models/pregunta_custom';
 
 const publicacionesService = new PublicacionesService();
+
+const evaluacionesService = new EvaluacionesService();
 
 const route = useRoute();
 
 const publicacion = ref<Software | null>(null);
 
 const categorias = ref<Categoria[]>([]);
+
+const preguntas = ref<Record<string, Subcategoria[]>>({});
+
+const preguntasCustom = ref<PreguntaCustom[]>([]);
+
+const respuestas = ref<Record<any, number>>({});
+
+const respuestasCustom = ref<Record<any, number>>({});
+
+const respondidas = computed(() => {
+	return Object.values(respuestas.value).filter(respuesta => respuesta > 0).length;
+});
+
+const respondidasCustom = computed(() => {
+	return Object.values(respuestasCustom.value).filter(respuesta => respuesta > 0).length;
+});
+
+function obtenerPreguntaCustom(categoriaId: string): PreguntaCustom | undefined {
+	return preguntasCustom.value.find(pregunta => pregunta.softwareCategoria.categoria.id === categoriaId);
+}
 
 async function cargarPublicacion() {
 	if(!route.params.id) {
@@ -56,10 +126,70 @@ async function cargarPublicacion() {
 
 	if (publicacion.value) {
 		categorias.value = publicacion.value.categorias?.map(categoria => categoria.categoria) as Categoria[]; 
-	}		
+	}
+}
+
+async function cargarPreguntas() {
+	if (categorias.value.length === 0) {
+		return;
+	}
+
+	for (const categoria of categorias.value) {
+		const subcategorias = await evaluacionesService.obtenerSubcategorias(categoria.id);
+
+		if (!subcategorias) {
+			continue;
+		}
+
+		const data = await Promise.all(
+			subcategorias.map(async (subcategoria) => {
+				const preguntas = await evaluacionesService.obtenerPreguntas(subcategoria.id);
+
+				if (!preguntas) {
+					return;
+				}
+
+				preguntas.forEach(pregunta => {
+					respuestas.value[pregunta.id] = 0;
+				});
+
+				return {
+					...subcategoria,
+					preguntas: preguntas
+				};
+			})
+		);
+
+		preguntas.value[categoria.id] = data as Subcategoria[];
+	}
+}
+
+async function cargarPreguntasCustom() {
+	if (!publicacion.value) {
+		return;
+	}
+
+	if (!publicacion.value.id) {
+		return;
+	}
+
+	preguntasCustom.value = await evaluacionesService.obtenerPreguntasCustom(publicacion.value.id) || [];
+
+	preguntasCustom.value.forEach(pregunta => {
+		respuestasCustom.value[pregunta.id] = 0;
+	});
+}
+
+function onClickEnviar() {
+	console.log(respuestas.value);
+	console.log(respuestasCustom.value);
 }
 
 onMounted(async () => {
 	await cargarPublicacion();
+
+	await cargarPreguntas();
+
+	await cargarPreguntasCustom();
 });
 </script>
