@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-surface-900 p-4 rounded-md w-20 h-full flex flex-col justify-between items-center border border-surface-800">
+    <div class="bg-surface-900 p-4 rounded-md w-20 h-[97%] flex flex-col justify-between items-center border border-surface-800 fixed">
         <div class="flex flex-col justify-between items-center gap-8">
             <!-- Logo -->
             <figure>
@@ -79,8 +79,7 @@ const sideItems = ref([
     { route: '/perfil/software', label: 'Software', icon: 'pi pi-code' },
     { route: '/perfil/evaluaciones', label: 'Evaluaciones', icon: 'pi pi-file-check' },
     { route: '/crear', label: 'Agregar', icon: 'pi pi-file-plus' },
-    { route: '/catalogo', label: 'Catalogo', icon: 'pi pi-list' },
-    { route: '/resultados/resultados', label: 'Resultados', icon: 'pi pi-chart-bar' },
+    { route: '/catalogo', label: 'Catalogo', icon: 'pi pi-list' }
 
 ]);
 

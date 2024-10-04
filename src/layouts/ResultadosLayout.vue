@@ -10,13 +10,10 @@
                         <Tab value="/comentarios" @click="navigateTo('comentarios')">Comentarios</Tab>
                     </TabList>
                 </Tabs>
-                <div v-if="loading">
+                <div>
                     <RouterView />
                 </div>
-                <!--Cargarlos en bucle-->
-                <div v-else>
-                    <LoadSkeleton/>
-                </div>
+                
             </section>
         </div>
     </div>
@@ -26,28 +23,18 @@
   import Tabs from 'primevue/tabs';
   import TabList from 'primevue/tablist';
   import Tab from 'primevue/tab';
-  import LoadSkeleton from '../components/shared/LoadSkeleton.vue';
   import { useRoute, useRouter } from 'vue-router';
-  import { onMounted, ref, watch } from 'vue';
+  import { onMounted } from 'vue';
   
   const router = useRouter();
   const route = useRoute(); // Obtener la ruta actual
-  const loading = ref(true);
   
   
-  function navigateTo(route: string) {
-  router.push(`/resultados/${route}`);
+  function navigateTo(route_: string) {
+    const { id } = route.params;
+  router.push(`/resultados/${id}/${route_}`);
   }
-  
-  watch(() => route.path, async (newPath) => {
-  loading.value = true;
-  if (newPath.includes('resultados')) {
-    
-  } else if (newPath.includes('comentarios')) {
-  }
-  loading.value = false; 
-  });
-  
+
   onMounted(() => {
     
   });

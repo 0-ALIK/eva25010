@@ -57,7 +57,7 @@ const router = createRouter({
                     component: () => import('./pages/gestion-publicaciones/Catalogo.vue'),
                 },
                 {
-                    path: "/resultados",
+                    path: "/resultados/:id",
                     component: () => import('./layouts/ResultadosLayout.vue'),
                     children:[
                         {
