@@ -135,7 +135,7 @@ async function enviarDatos() {
     vuelidate.value.$touch();  
 
     if (vuelidate.value.$invalid) {
-        toastStore.showToast('error', 'Error', 'Faltan campos por completar')
+        //toastStore.showToast('error', 'Error', 'Faltan campos por completar')
     }
     
     try {
@@ -163,3 +163,5 @@ async function enviarDatos() {
 
 }
 </script>
+
+

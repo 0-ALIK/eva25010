@@ -23,7 +23,7 @@ import { TipoSoftware } from '../../models/tipo_software';
 // Props
 const props = defineProps<{
   licencias: Licencia[];
-  tipo: TipoSoftware[];  // Aquí defines el array correctamente
+  tipo: TipoSoftware[];
 }>();
 
 </script>

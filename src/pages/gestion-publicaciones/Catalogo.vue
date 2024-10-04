@@ -6,12 +6,12 @@
             
             <!-- Mostrar lista de publicaciones -->
             <div v-for="software in publicacion" :key="software.id" class="mb-4 flex flex-col gap-2">
-                <CardSoftware :nombre="software.nombre" :portada="software.portada" :descripcion="software.descripcion" :licencia="software.licencia" :version="software.version" :enlace="software.enlace"/>
+                <CardSoftware :nombre="software.nombre" :portada="software.portada" :descripcion="software.descripcion" :licencia="software.licencia" :version="software.version" :enlace="software.enlace" :id="software.id"/>
             </div>
         </section>
         
         <section class="w-full">
-            <Filtros/>
+            <Filtros />
         </section>
 
     </div>
@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import Filtros from '../../components/gestion-publicaciones/Filtros.vue';
+import Filtros from '../../components/gestion-publicacion/Filtros.vue';
 import CardSoftware from '../../components/shared/CardSoftware.vue';
 import { Licencia } from '../../models/licencia';
 import { TipoSoftware } from '../../models/tipo_software';

@@ -17,7 +17,7 @@
 
         <!--Botón acción-->
         <section class="w-fit">
-            <Badge size="sm" unstyled="true" :value="props.respuestas?.values" class="text-sm bg-primary py-2 px-4 rounded-lg text-surface-900 font-medium"/>
+            <Badge size="sm" :unstyled="true" :value="props.respuestas?.values" class="text-sm bg-primary py-2 px-4 rounded-lg text-surface-900 font-medium"/>
         </section>
     </div>
 </template>

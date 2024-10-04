@@ -10,8 +10,8 @@
             <section class="flex justify-start gap-4 items-center">
                 <Avatar :image="props.usuario?.foto" class="mr-2" size="xlarge" shape="circle" />
                 <h3 class="text-primary-400 font-medium"> {{ props.usuario?.nombre }} {{ props.usuario?.apellido }}</h3>
-                <Badge unstyled="true" class="text-surface-950 font-normal bg-primary-400 p-2 rounded-lg" size="xlarge" :value="props.subtipoSoftware"></Badge>
-                <Badge unstyled="true" class="text-surface-950 font-normal bg-primary-400 p-2 rounded-lg" size="xlarge" :value="props.version"></Badge>
+                <Badge :unstyled="true" class="text-surface-950 font-normal bg-primary-400 p-2 rounded-lg" size="xlarge" :value="props.subtipoSoftware"></Badge>
+                <Badge :unstyled="true" class="text-surface-950 font-normal bg-primary-400 p-2 rounded-lg" size="xlarge" :value="props.version"></Badge>
             </section>
 
             <p class="line-clamp-3 m-2">{{ props.descripcion }}</p>

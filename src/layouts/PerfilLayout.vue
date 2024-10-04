@@ -50,7 +50,7 @@ const loading = ref(true);
 async function loadPublicaciones() {
   try {
     const publicacionesService = new PublicacionesService();
-    const response = await publicacionesService.obtenerPublicacionesByUsuario();
+    const response = await publicacionesService.obtenerPublicacionesPropias();
 
     if (response) {
       publicacion.value = response;
@@ -68,7 +68,7 @@ async function loadPublicaciones() {
 async function loadEvaluaciones(){
   try {
     const evaluacionesService = await new EvaluacionesService
-    const response = await evaluacionesService.obtenerEvaluacionByUser();
+    const response = await evaluacionesService.obtenerEvaluacionesPropias();
     
     if (response) {
       evaluacion.value = response;

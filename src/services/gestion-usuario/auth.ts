@@ -11,9 +11,11 @@ export interface UsuarioResponse {
     usuarios: Usuario[];
 }
 
-export class AuthService {
 
+export class AuthService {
+    
     private module: string = '/gestion-usuario';
+    authStore = useAuthStore();
     
     public async login(correo: string, password: string): Promise<AuthResponse | null> {
         try {
@@ -35,7 +37,6 @@ export class AuthService {
     public async verify(): Promise<Usuario | null> {
         try {
             const authStore = useAuthStore();
-
             const response = await AxiosService.http.get<Usuario>(this.module+'/auth/verify', {
                 headers: {
                     'x-token': authStore.getToken || ''
@@ -58,7 +59,6 @@ export class AuthService {
             });
             
             console.log('Éxito');
-
             if (response.status === 400) {
                 console.error('Error de estado:', response.data);
             }
@@ -71,17 +71,24 @@ export class AuthService {
     }
 
     public async actualizarDatosUsuario(formData: FormData): Promise<Usuario | null> {
-    try {
-        const response = await AxiosService.http.put(`${this.module}/usuarios`, 
-            formData
-        );
-        return response.data.usuarios
-
-    } catch (error) {
-        console.error('Error al actualizar el usuario:', error);
-        return null;
+        try {
+            const response = await AxiosService.http.put(this.module +'/usuarios', 
+                formData,  
+                {
+                    headers: {
+                        'x-token': this.authStore.getToken,  
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            );
+            console.log('Respuesta completa de la API desde el servicio:', response);
+            return response.data?.usuarios?.[0] || null;
+    
+        } catch (error) {
+            console.error('Error al actualizar el usuario:', error);
+            return null;
+        }
     }
-} 
 
     public async obtenerAllUsuarios(): Promise<Usuario[] | null> {
         try {
