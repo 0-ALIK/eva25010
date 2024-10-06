@@ -6,20 +6,10 @@ import { AxiosService } from "../axios";
 import { Software } from "../../models/software";
 import { useAuthStore } from "../../stores/gestion-usuario/auth-store";
 
-export interface SoftwareResponse {
-    softwares: Software[];
-}
-
-export interface LicenciaResponse {
-    licencias: Licencia[];
-}
-
-export interface TecnologiaResponse {
-    tecnologias: Tecnologia[];
-}
-
-export interface TipoResponse {
-    tipos: TipoSoftware[];
+interface GetParams {
+    search?: string;
+    tipo?: number;
+    licencia?: number;
 }
 
 //Clase
@@ -27,12 +17,13 @@ export class PublicacionesService {
 
     private module: string = '/gestion-publicaciones';
 
-    public async obtenerAllPublicaciones(): Promise<Software[] | null> {
+    public async obtenerAllPublicaciones(params: GetParams = {}): Promise<Software[] | null> {
         try {
-            const response = await AxiosService.http.get<Software[]>(this.module + '/software');
+            const response = await AxiosService.http.get<Software[]>(this.module + '/software', {
+                params
+            });
             return response.data;
         } catch (error) {
-            console.error('Error fetching publicaciones:', error);
             return null;
         }
     }
@@ -56,7 +47,6 @@ export class PublicacionesService {
             });
             return response.data; 
         } catch (error) {
-            console.error('Error obteniendo las publicaciones del usuario:', error);
             return null;
         }
     }
@@ -74,16 +64,6 @@ export class PublicacionesService {
             });
             return response.data;
         } catch (error) {
-            return null;
-        }
-    }
-
-    public async getAllPublicaciones() {
-        try {//hacer lo del ID
-            const response = await AxiosService.http.get(this.module);
-            return response.data;
-        } catch (error) {
-            console.error('Error getting publicaciones:', error);
             return null;
         }
     }

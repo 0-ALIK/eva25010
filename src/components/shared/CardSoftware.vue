@@ -13,25 +13,38 @@
                     <small class="opacity-25 font-bold"> {{ fecha.formatoFecha(props.software.createdAt.toString()) }}</small>
                 </div>
                 <!--Descripción-->
-                <p class="line-clamp-3">{{ props.software.descripcion }}</p>
+                <p class="line-clamp-3">{{ formatDescripcion(props.software.descripcion) }}</p>
                 <!--Botones de datos-->
                 <div class="text-white flex justify-star">
                     <Tag icon="pi pi-bookmark" :value="props.software.version" class="mr-1"></Tag>
                     <Tag icon="pi pi-id-card" severity="secondary" :value="props.software.licencia?.nombre" class="mr-1"></Tag>
                 </div>
             </article>
+
+            <div class="flex-shrink-0" v-if="usuarioVisible">
+                <Usuario :usuario="props.software.usuario" />
+            </div>
         </div>
     </RouterLink>
 </template>
 
 <script setup lang="ts">
 import Tag from 'primevue/tag';
+import Usuario from './Usuario.vue';
 import { Software } from '../../models/software';
 import { useFecha } from '../../composables/shared/fechas';
 
 const fecha = useFecha();
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
     software: Software;
-}>();
+    usuarioVisible?: boolean;
+}>(), {
+   usuarioVisible: true 
+});
+
+function formatDescripcion(descripcion: string): string {
+    return descripcion.length > 200 ? descripcion.slice(0, 100) + '...' : descripcion;
+}
+
 </script>

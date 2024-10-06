@@ -20,7 +20,6 @@ export class EvaluacionesService{
             return response.data;
 
         } catch (error) {
-            console.error('Error fetching evaluaciones propias:', error);
             return null;
         };
     };
