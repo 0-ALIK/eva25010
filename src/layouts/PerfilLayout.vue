@@ -1,8 +1,8 @@
 <template>
     <div class="flex flex-col h-screen">
         <div class="flex justify-end flex-row-reverse gap-4  h-full">
-            <section class="flex flex-col gap-2 mt-2 ml-64">
-                <Tabs  value="/software" class="w-fit">
+            <section class="flex flex-col gap-2 mt-2 ml-64 w-full">
+                <Tabs  value="/software" class="w-full">
                     <h1>Perfil de Usuario</h1>
 
                     <TabList class="border border-surface-800 rounded-md px-1 bg-surface-900" >

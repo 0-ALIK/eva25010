@@ -2,17 +2,7 @@
     <div>
         <ul class=" flex flex-col gap-2">
             <li v-for="publicacion in publicaciones" :key="publicacion.id" >
-                <CardSoftware
-                :id="publicacion.id"
-                :portada="publicacion.portada"
-                :nombre="publicacion.nombre"
-                :subtipo-software="publicacion.subtipoSoftware"
-                :created-at="publicacion.createdAt"
-                :descripcion="publicacion.descripcion"
-                :licencia="publicacion.licencia"
-                :version="publicacion.version"
-                :enlace="publicacion.enlace"
-            />
+                <CardSoftware :software="publicacion" />
             </li>
         </ul>
     </div>

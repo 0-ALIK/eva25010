@@ -1,5 +1,5 @@
 <template>
-    <Dialog v-bind:visible="props.visible" modal header="Edit Profile" :style="{ width: '25rem' }">
+    <Dialog :visible="props.visible" modal header="Edit Profile" :style="{ width: '25rem' }">
         <span class="text-surface-500 dark:text-surface-400 block mb-8">Update your information.</span>
 
         <div class="flex items-center gap-4 mb-4">
