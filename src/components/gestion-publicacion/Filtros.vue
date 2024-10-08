@@ -56,7 +56,7 @@ async function cargarSubtipos() {
       console.error('Error al cargar los subtipos:', error);
     }
   } else {
-    subtipos.value = []; // Limpiar subtipos si no hay tipo seleccionado
+    subtipos.value = [];
   }
 }
 

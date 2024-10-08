@@ -29,7 +29,6 @@ async function loadEvaluacionesPropias() {
   try {
     const evaluacionesService = new EvaluacionesService();
     const response = await evaluacionesService.obtenerEvaluacionesPropias();
-
     if (response) {
         evaluaciones.value = response;
       console.log('Evaluaciones del usuario:', evaluaciones.value);

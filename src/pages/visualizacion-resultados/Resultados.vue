@@ -8,16 +8,16 @@
             <Select v-model="selectedSubcategoria" :options="subcategorias" optionLabel="nombre" placeholder="Subcategorías" class="w-full md:w-56" :disabled="!selectedCategoria" />          
         </form>
         </section>
-        <section class="flex gap-2">
-            <CardPromedio :valor="0" titulo="Evaluaciones Totales Recibidas"/>
-            <CardPromedio :valor="promedioFinal" titulo="Promedio Final"/>
-            <CardPromedioCategoria :categoria="selectedCategoria?.nombre || 'N/A'" :valor="promedioFinalCategoria"/>
-            <CardPromedioSub :subcategoria="selectedSubcategoria?.nombre || 'N/A'" :valor="promedioFinalSubCategoria"/>
+        <section class="flex gap-2 h-48">
+            <CardPromedio :tipo="false" icon="pi pi-check p-2 bg-surface-800 rounded self-center" :valor="100" titulo="Evaluaciones Totales"/>
+            <CardPromedio :tipo="true"  icon="pi pi-check p-2 bg-surface-800 rounded self-center" :valor="100" titulo="Promedio Final"/>
+            <CardPromedioCategoria icon="pi pi-check p-2 bg-surface-800 rounded self-center" titulo="Promedio Categoria" :categoria="selectedCategoria?.nombre || 'NADA' " :valor="promedioFinalCategoria || 100"/>
+            <CardPromedioCategoria icon="pi pi-check p-2 bg-surface-800 rounded self-center" titulo="Promedio Subcat. " :categoria="selectedSubcategoria?.nombre || 'NADA'" :valor="promedioFinalSubCategoria || 50"/>
         </section>
 
         <section class="flex gap-4 w-full">
             <!-- Solo renderizar si selectedSubcategoria no es null -->
-            <!-- <GraficaBarras v-if="selectedSubcategoria" :subcategoria="selectedSubcategoria" :softwareId="selectedSoftwareId" /> -->
+            <GraficaBarras v-if="selectedSubcategoria" :subcategoria="selectedSubcategoria" :softwareId="selectedSoftwareId" /> 
 
         </section>
     </div>
@@ -26,7 +26,6 @@
 <script setup lang="ts">
 import CardPromedio from '../../components/visualizacion-resultados/CardPromedio.vue';
 import CardPromedioCategoria from '../../components/visualizacion-resultados/CardPromedioCategoria.vue';
-import CardPromedioSub from '../../components/visualizacion-resultados/CardPromedioSub.vue';
 import { Categoria } from '../../models/categoria';
 import { Subcategoria } from '../../models/subcategoria';
 import Select from 'primevue/select';
@@ -51,6 +50,8 @@ const promedioFinalSubCategoria = ref<number>(0);
 
 const resultadosService = new ResultadosService();
 const evaluacionesService = new EvaluacionesService();
+
+const tipo = ref();
 
 watch(selectedCategoria, async (newCategoria) => {
     console.log('Nueva categoría seleccionada:', newCategoria);
