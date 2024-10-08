@@ -2,25 +2,24 @@ import { AxiosService } from "../axios";
 import { useAuthStore } from "../../stores/gestion-usuario/auth-store";
 import { Categoria } from "../../models/categoria";
 import { Subcategoria } from "../../models/subcategoria";
+import { Evaluacion } from "../../models/evaluacion";
 
 
 
 export class EvaluacionesService{ 
     private module: string = '/evaluaciones';
-    authStore = useAuthStore();
 
-    public async obtenerEvaluacionesPropias(): Promise<any | null> {
+    public async obtenerEvaluacionesPropias(): Promise<Evaluacion[] | null> {
         try {
-            const authStore = useAuthStore();
-            const response = await AxiosService.http.get(this.module + '/propias',{
+            const authStore = useAuthStore();   
+            const response = await AxiosService.http.get(this.module + '/propias', {
                 headers: {
                     'x-token': authStore.getToken
                 }
-             });
-            return response.data.evaluacion;
+            });
+            return response.data;
 
         } catch (error) {
-            console.error('Error fetching evaluaciones propias:', error);
             return null;
         };
     };
@@ -48,9 +47,10 @@ export class EvaluacionesService{
 
     public async obtenerPreguntasPorSubcategoria(subcategoriaid: string): Promise<any | null> {
         try {
+            const authStore = useAuthStore();
             const response = await AxiosService.http.get(`${this.module}/preguntas/${subcategoriaid}`, {
                 headers: {
-                    'x-token': this.authStore.getToken
+                    'x-token': authStore.getToken
                 } 
             });
             return response.data;

@@ -5,6 +5,7 @@ import { Evaluacion } from "./evaluacion";
 import { SubtipoSoftware } from "./subtipo_software";
 import { ImagenPreview } from "./imagen_preview";
 import { PreguntaCustom } from "./pregunta_custom";
+import { SoftwareTecnologia } from "./software_tecnologia";
 
 export interface Software {
     id?: number;
@@ -19,7 +20,8 @@ export interface Software {
     evaluaciones?: Evaluacion[];
     preguntasCustom?: PreguntaCustom[];
     imagenesPreview?: ImagenPreview[];
+    softwareTecnologias: SoftwareTecnologia[];
     createdAt?: Date;
     updatedAt?: Date;
-    enlace?: String;
+    enlace?: string;
 }

@@ -20,7 +20,7 @@
             <h2 v-if="software" class="font-bold m-0">{{ software.nombre }}</h2>
             <Skeleton v-else height="2rem"></Skeleton>
             <Chip v-if="software" :label="software.subtipoSoftware?.nombre" />
-            <p v-if="software"  class="self-center">{{ software.createdAt }}</p>
+            <p v-if="software" class="self-center">{{ fecha.formatoFecha(software.createdAt.toString()) }}</p>
         </div>
 
         <div class="flex gap-4">
@@ -83,12 +83,15 @@ import { PublicacionesService } from '../../services/gestion-publicaciones/publi
 import { Software } from '../../models/software';
 import { useRoute, useRouter } from 'vue-router';
 import { useConfirmStore } from '../../stores/shared/confirm-store';
+import { useFecha } from '../../composables/shared/fechas';
 
 const publicacionService = new PublicacionesService();
 
 const confirm = useConfirmStore();
 
 const route = useRoute();
+
+const fecha = useFecha();
 
 const router = useRouter();
 

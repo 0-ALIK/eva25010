@@ -1,6 +1,6 @@
 <template>
-    <div class="mx-outer flex flex-col gap-2">
-        <h2 class="p-1">Home</h2>
+    <div class="flex flex-col gap-4">
+        <h2 class="font-bold">Home</h2>
         <section class="flex h-fit w-full gap-4">
             <CardEmpezar class="border border-surface-800 rounded-xl p-1 bg-surface-900"/>
             <CardSubir class="border border-surface-800 rounded-xl p-1 bg-surface-900"/>
@@ -10,20 +10,7 @@
             <h4 class="font-semibold p-1"> Software´s mas populares </h4>
             <ul>
                 <li v-for="publicacion in publicacionesRecientes" :key="publicacion.id">
-                    <CardSoftwarePopulares
-                        :id="publicacion.id"
-                        :portada="publicacion.portada"
-                        :nombre="publicacion.nombre"
-                        :subtipo-software="publicacion.subtipoSoftware"
-                        :created-at="publicacion.createdAt"
-                        :descripcion="publicacion.descripcion"
-                        :licencia="publicacion.licencia"
-                        :version="publicacion.version"
-                        :enlace="publicacion.enlace"
-                        :foto="publicacion.usuario.foto"
-                        :nombreUsuario="publicacion.usuario.nombre"
-                        :ApellidoUsuario="publicacion.usuario.apellido"
-                    />
+                    <CardSoftwarePopulares :software="publicacion" />
                 </li>
             </ul>
         </section>
@@ -34,13 +21,7 @@
             <div class="flex gap-2 text-center">
                 <ul>
                     <li v-for="usuario in usuarios" :key="usuario.id">
-                        <CardUsuario
-                            :id="usuario.id"
-                            :foto="usuario.foto"
-                            :nombre="usuario.nombre"
-                            :apellido="usuario.apellido"
-                            :profesion="usuario.profesion"
-                        />
+                        <CardUsuario :usuario="usuario" />
                     </li>
                 </ul>
 
@@ -52,17 +33,7 @@
 
             <ul class=" flex flex-col gap-2">
                 <li v-for="publicacion in publicaciones" :key="publicacion.id" >
-                    <CardSoftware
-                    :id="publicacion.id"
-                    :portada="publicacion.portada"
-                    :nombre="publicacion.nombre"
-                    :subtipo-software="publicacion.subtipoSoftware"
-                    :created-at="publicacion.createdAt"
-                    :descripcion="publicacion.descripcion"
-                    :licencia="publicacion.licencia"
-                    :version="publicacion.version"
-                    :enlace="publicacion.enlace"
-                />
+                    <CardSoftware :software="publicacion" />
                 </li>
             </ul>
         </section>
