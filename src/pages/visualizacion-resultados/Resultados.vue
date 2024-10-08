@@ -15,7 +15,7 @@
 
         <section class="flex gap-4 w-full">
             <!-- Solo renderizar si selectedSubcategoria no es null -->
-            <GraficaBarras v-if="selectedSubcategoria" :subcategoria="selectedSubcategoria" :softwareId="selectedSoftwareId" /> 
+            <GraficaBarras v-if="selectedSubcategoria" :subcategoria="selectedSubcategoria" :softwareId="software.id" /> 
 
         </section>
     </div>
@@ -41,7 +41,6 @@ const categorias = ref<Categoria[]>([]);
 const subcategorias = ref<Subcategoria[]>([]);
 const selectedCategoria = ref<Categoria | null>(null);
 const selectedSubcategoria = ref<Subcategoria | null>(null);
-const selectedSoftwareId = ref<any>('');
 
 const totalEvaluaciones = ref<any[]>([]); 
 const promedioFinal = ref<any>(); 
@@ -146,7 +145,9 @@ async function loadPublicaciones() {
   } catch (error) {
     console.error('Error al cargar las publicaciones:', error);
   }
-}
+};
+
+
 
 onMounted(async() => {
     await loadPublicaciones();

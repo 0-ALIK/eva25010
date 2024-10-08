@@ -22,7 +22,7 @@ const props = defineProps({
         default: () => ({})
     },
     softwareId: {
-        type: String,
+        type: Number,
         required: true,
     },
 });
@@ -36,7 +36,7 @@ const evaluacionesService = new EvaluacionesService();
 
 watch(selectedPregunta, async (newPregunta) => {
     if (newPregunta) {
-        //await loadRespuestas(/* softwareId */, newPregunta.id);
+        await loadRespuestas(newPregunta.id);
         chartData.value = setChartData(); 
     }
 });
@@ -78,7 +78,7 @@ const setChartData = () => {
                 label: selectedPregunta.value,
                 backgroundColor: documentStyle.getPropertyValue('--p-cyan-500'),
                 borderColor: documentStyle.getPropertyValue('--p-cyan-500'),
-                data: respuestas.value
+                data: Object.values(respuestas.value).map(value => value)
             }
         ]
     };
@@ -133,5 +133,6 @@ onMounted(async () => {
     //};
     chartData.value = setChartData();
     chartOptions.value = setChartOptions();
+    loadPreguntas((props.subcategoria as any).id)
 });
 </script>
