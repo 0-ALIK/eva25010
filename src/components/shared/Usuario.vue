@@ -6,7 +6,7 @@
             <p v-if="props.usuario">{{ props.usuario?.nombre + ' ' + props.usuario?.apellido }}</p>
             <small v-if="props.usuario"  class="text-gray-500">{{
                 props.usuario?.profesion ?
-                props.usuario?.profesion :
+                props.usuario?.profesion.nombre :
                 'No profesional'
             }}</small>
         </div>

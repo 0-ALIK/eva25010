@@ -14,7 +14,7 @@
 
         <div class="flex items-center gap-4 mb-8">
             <label for="email" class="font-semibold w-24">Profesión</label>
-            <InputText id="email" v-model="usuario.profesion" class="flex-auto" autocomplete="off" />
+            <Select v-model="usuario.profesion" :options="profesiones" optionLabel="nombre" placeholder="Profesiones" class="w-full md:w-56" />
         </div>
 
         <div class="flex items-center gap-4 mb-8">
@@ -30,23 +30,29 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, ref } from 'vue';
+import { defineProps, defineEmits, ref, onMounted } from 'vue';
 import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import { AuthService } from '../../services/gestion-usuario/auth';
 import { useToastStore } from '../../stores/shared/toast-store';
+import Select from 'primevue/select';
 import { useAuthStore } from '../../stores/gestion-usuario/auth-store';
+import { Profesion } from '../../models/profesion';
 
 const props = defineProps<{ visible: boolean }>();
 const emit = defineEmits(['update:visible']);
 
+const authService = new AuthService();
+
 const usuario = ref({
     nombre: '',
     apellido: '',
-    profesion: '',
+    profesion: null,
     cargo: ''
 });
+
+const profesiones = ref<Profesion[]>([]);
 
 const toastStore = useToastStore();
 
@@ -55,36 +61,47 @@ function cerrarModal() {
 }
 
 async function guardarCambios() {
-    try {
-        console.log('Funciona');
 
-        const authStore = useAuthStore()
-        const usuarioService = new AuthService();
-        const formData = new FormData();
-        formData.append('nombre', usuario.value.nombre || '');
-        formData.append('apellido', usuario.value.apellido || '');
-        formData.append('profesion', usuario.value.profesion || '');
-        formData.append('cargo', usuario.value.cargo || '');
+    const formdata = new FormData();
 
-        const response = await usuarioService.actualizarDatosUsuario(formData);
-        console.log('Datos del usuario en el local: ', authStore.getUsuario);
-        if (response) {
-            
-            authStore.setUsuario(response); 
-            toastStore.showToast('success', 'Éxito', 'Los datos se han actualizado correctamente.');
-            console.log('Funciona');
-            console.log(authStore.getUsuario);
+    if(usuario.value.nombre.trim() !== ''){
+        formdata.append('nombre', usuario.value.nombre);
+    }
 
-        } else {
-            toastStore.showToast('error', 'Error', 'No se pudieron actualizar los datos.');
-        }
-    } catch (error) {
-        toastStore.showToast('error', 'Error', 'Error al actualizar los datos.');
-        console.error('Error al cargar los datos:', error);
-    } finally {
-        cerrarModal(); 
+    if(usuario.value.apellido.trim() !== ''){
+        formdata.append('apellido', usuario.value.apellido);
+    }
+
+    if(usuario.value.profesion){
+        formdata.append('profesionId', usuario.value.profesion.id.toString());
+    }
+
+    if(usuario.value.cargo.trim() !== ''){
+        formdata.append('cargo', usuario.value.cargo);
+    }
+
+    const response = await authService.actualizarDatosUsuario(formdata);
+
+    if(response){
+        toastStore.showToast('success', 'Datos actualizados', 'Los datos del usuario han sido actualizados correctamente');
+        emit('update:visible', false);
+    } else {
+        toastStore.showToast('error', 'Error', 'No se pudieron actualizar los datos del usuario');
     }
 
     cerrarModal(); 
 }
+
+onMounted(async () => {
+
+    const authStore = useAuthStore();
+    const usuarioAuth = authStore.getUsuario;
+
+    usuario.value.nombre = usuarioAuth.nombre || '';
+    usuario.value.apellido = usuarioAuth.apellido || '';
+    usuario.value.profesion = usuarioAuth.profesion;
+    usuario.value.cargo = usuarioAuth.cargo || '';
+
+    profesiones.value = await authService.obtenerProfesiones();
+});
 </script>
