@@ -5,7 +5,7 @@ export class ResultadosService {
 
     private module: string = '/visualizacion-resultados';
 
-    public async obtenerTotalEvaluaciones(softwareid: string): Promise<any | null> {
+    public async obtenerTotalEvaluaciones(softwareid: number): Promise<any | null> {
         try {
             const authStore = useAuthStore();
             const response = await AxiosService.http.get(`${this.module}/total-evaluaciones/${softwareid}`, {
@@ -20,7 +20,7 @@ export class ResultadosService {
         }
     }
 
-    public async obtenerPromedioFinal(softwareid: string): Promise<any | null> {
+    public async obtenerPromedioFinal(softwareid: number): Promise<any | null> {
         try {
             const authStore = useAuthStore();
             const response = await AxiosService.http.get(`${this.module}/promedio-final/${softwareid}`,{
@@ -34,10 +34,10 @@ export class ResultadosService {
         }
     };
 
-    public async obtenerPromedioCategoria(softwareid: string, categoria: string): Promise<any | null> {
+    public async obtenerPromedioCategoria(softwareid: number, categoriaId: any): Promise<any | null> {
         try {
             const authStore = useAuthStore();
-            const response = await AxiosService.http.get(`${this.module}/promedio-final/categoria/${softwareid}/${categoria}`, {
+            const response = await AxiosService.http.get(`${this.module}/promedio-final/categoria/${softwareid}/${categoriaId}`, {
                 headers: {
                     'x-token': authStore.getToken
                 } 
@@ -49,7 +49,7 @@ export class ResultadosService {
         };
     };
 
-    public async obtenerPromedioSubCategoria(softwareid: string, subcategoriaId: string): Promise<any | null> {
+    public async obtenerPromedioSubCategoria(softwareid: number, subcategoriaId: any): Promise<any | null> {
         try {
             const authStore = useAuthStore();
             const response = await AxiosService.http.get(`${this.module}/promedio-final/subcategoria/${softwareid}/${subcategoriaId}`, {
@@ -59,12 +59,12 @@ export class ResultadosService {
             });
             return response.data;
         } catch (error) {
-            console.error('Error fetching:', error);
+            console.error('Error fetching prom sub:', error);
             return null;
         };
     };
 
-    public async obtenerRespuestasPreguntas(softwareId: string, preguntaId: number): Promise<any | null> {
+    public async obtenerRespuestasPreguntas(softwareId: number, preguntaId: number): Promise<any | null> {
         try {
             const authStore = useAuthStore();
             const response = await AxiosService.http.get(`${this.module}/preguntas/total/${softwareId}/${preguntaId}`, {

@@ -30,10 +30,12 @@ const props = defineProps({
     tipo: Boolean
 });
 
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
-const value = ref(50);
+const value = ref();
 
-
+onMounted(()=>{
+    value.value = (props.valor*100)/5;
+});
 </script>
 

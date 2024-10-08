@@ -17,8 +17,9 @@
 <script setup lang="ts">
 import 'primeicons/primeicons.css'
 import Knob from 'primevue/knob';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
+const value = ref(50);
 const props = defineProps({
     titulo: String,
     categoria: String,
@@ -27,9 +28,9 @@ const props = defineProps({
 });
 
 
-
-const value = ref(50);
-
+onMounted(()=>{
+    value.value = (props.valor*100)/5;
+});
 </script>
 
 
