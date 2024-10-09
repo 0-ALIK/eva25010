@@ -19,7 +19,6 @@ const evaluaciones = ref<Evaluacion[]>([]);
 async function loadEvaluacionesPropias() {
     const evaluacionesService = new EvaluacionesService();
     const response = await evaluacionesService.obtenerEvaluacionesPropias();
-
     if (response) {
         evaluaciones.value = response;
     }

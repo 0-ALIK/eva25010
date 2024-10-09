@@ -19,7 +19,7 @@
 
         <template #footer class="flex justify-between">
             <div class="flex justify-between ">
-                <Button as="router-link" label="Ver más"  to="`/gestion-publicaciones/software/${props.id}`" severity=""  class="w-fit bg-primary-500" icon="pi pi-chevron-right" icon-pos="right"/>
+                <Button as="router-link" label="Ver más"  :to="'/software/'+ props.software.id" severity=""  class="w-fit bg-primary-500" icon="pi pi-chevron-right" icon-pos="right"/>
 
             </div>
         </template>

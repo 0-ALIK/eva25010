@@ -6,9 +6,13 @@
 
         <article class="flex flex-col gap-2" >
             <div class="flex justify-start gap-4 "><!--Nombre, fecha-->
+<<<<<<< HEAD
+                <h4>{{ props.software.nombre }} </h4>
+=======
                 <h4>{{ props.evaluacion.software?.nombre }} </h4>
                 <small class="text-gray-500 text-xs">{{ props.evaluacion.software?.subtipoSoftware }}  </small>
                 <small class="text-gray-500 text-xs"> {{ props.evaluacion.createdAt }}</small>
+>>>>>>> ea377557548547ee5682c8ae3d6ac92f35e41c94
             </div>
             <!--Descripción-->
             <p class="line-clamp-3">{{ props.evaluacion.comentario?.descripcion }}</p>
