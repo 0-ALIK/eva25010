@@ -11,7 +11,7 @@
             </div>
             <article class="flex flex-col self-end items-center pb-2 gap-2  ">
                 <i :class="icon"></i>
-                <p class="text-3xl font-bold ">{{ tipo ? props.valor.toFixed(2) : props.valor }}</p>
+                <p class="text-3xl font-bold ">{{ tipo ? props.valor?.toFixed(2) : props.valor }}</p>
             </article>
 
         </section>

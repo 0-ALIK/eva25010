@@ -7,7 +7,7 @@
             <article class="flex flex-col gap-2 items-center ">
                 <small class="font-semibold">{{ props.categoria }}</small>
                 <i :class="icon"></i>
-                <p class="text-3xl font-bold">{{ props.valor.toFixed(2) }}</p>
+                <p class="text-3xl font-bold">{{ props.valor?.toFixed(2) }}</p>
             </article>
 
         </section>  

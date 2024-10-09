@@ -23,7 +23,7 @@
             <p v-if="software" class="self-center">{{ fecha.formatoFecha(software.createdAt.toString()) }}</p>
         </div>
 
-        <div class="flex gap-4">
+        <div class="flex gap-4 mb-4">
             
             <div class="p-5 rounded-md bg-surface-900 w-full flex flex-col justify-between border border-surface-800">
                 <section>
@@ -68,6 +68,15 @@
             </div>
         </div>
 
+        <Galleria :value="software?.imagenesPreview" :numVisible="5" class="w-full">
+            <template #item="slotProps">
+                <img :src="slotProps.item.imagen" :alt="slotProps.imagen" class="h-96 w-fullv object-cover"/>
+            </template>
+            <template #thumbnail="slotProps">
+                <img :src="slotProps.item.imagen" :alt="slotProps.item.imagen" class="w-24 h-24 object-cover"/>
+            </template>
+        </Galleria>
+
         <Divider align="center" type="dotted" class="text-primary">
             <b>Comentarios más recientes</b>
         </Divider>
@@ -84,6 +93,7 @@ import ConfirmDialog from 'primevue/confirmdialog';
 import Chip from 'primevue/chip';
 import Image from 'primevue/image';
 import Tag from 'primevue/tag';
+import Galleria from 'primevue/galleria';
 /* import Comentario from '../../components/gestion-publicaciones/Comentario.vue'; */
 import Button from 'primevue/button';
 import Divider from 'primevue/divider';
