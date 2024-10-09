@@ -47,7 +47,18 @@
                     </div>
 
                     <div>
-                        <Button type="button" label="Evaluar" icon="pi pi-check-square" @click="onClickEvaluar" />
+                        <Button as="router-link" v-if="propia" type="button" label="Ver resultados" icon="pi pi-chart-bar" :to="'/resultados/'+software.id+'/resultados'" />
+                        <div v-if="!propia">
+                            <div v-if="yaEvaluado">
+                                <div class="flex flex-col items-center">
+                                    <i class="pi pi-check-circle text-success" style="font-size: 4rem;"></i>
+                                    <h2>Ya evaluado</h2>
+                                </div>
+                            </div>
+                            <div v-else>
+                                <Button type="button" label="Evaluar" icon="pi pi-check-square" @click="onClickEvaluar" />
+                            </div>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -84,16 +95,24 @@ import { Software } from '../../models/software';
 import { useRoute, useRouter } from 'vue-router';
 import { useConfirmStore } from '../../stores/shared/confirm-store';
 import { useFecha } from '../../composables/shared/fechas';
+import { useAuthStore } from '../../stores/gestion-usuario/auth-store';
+import { EvaluacionesService } from '../../services/gestion-evaluaciones/evaluaciones';
 
 const publicacionService = new PublicacionesService();
 
 const confirm = useConfirmStore();
+
+const authStore = useAuthStore();
 
 const route = useRoute();
 
 const fecha = useFecha();
 
 const router = useRouter();
+
+const propia = ref(false);
+
+const yaEvaluado = ref(false);
 
 const software = ref<Software | null>(null);
 
@@ -127,5 +146,27 @@ onMounted(async () => {
     const { id } = route.params;
 
     software.value = await publicacionService.obtenerPublicacionById(Number(id));
+
+    if(!software.value) {
+        router.push('/not-found');
+    }    
+
+    const usuarioAuth = authStore.getUsuario;
+
+    if(software.value.usuario.id === usuarioAuth.id) {
+        propia.value = true;
+        return;
+    }
+
+    const evaluacionesService = new EvaluacionesService();
+    const evaluacionesDeUsuario = await evaluacionesService.obtenerEvaluacionesPropias();
+
+    if(evaluacionesDeUsuario) {
+        const evaluacion = evaluacionesDeUsuario.find(evaluacion => evaluacion.software.id === software.value.id);
+
+        if(evaluacion) {
+            yaEvaluado.value = true;
+        }
+    }
 });
 </script>

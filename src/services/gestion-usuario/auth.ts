@@ -37,12 +37,13 @@ export class AuthService {
     public async verify(): Promise<Usuario | null> {
         try {
             const authStore = useAuthStore();
+            
             const response = await AxiosService.http.get<Usuario>(this.module+'/auth/verify', {
                 headers: {
-                    'x-token': authStore.getToken || ''
+                    'x-token': authStore.getToken || localStorage.getItem('token') || ''
                 }
             });
-
+            
             authStore.setUsuario(response.data);
             return response.data;
         } catch (error) {

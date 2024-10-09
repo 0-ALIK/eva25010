@@ -72,9 +72,9 @@ createApp(App)
         },
         ripple: true,
     })
-    .use(router)
     .use(pinia)
     .use(ToastService)
     .use(ConfirmationService)
     .use(DialogService)
+    .use(router)
     .mount('#app');

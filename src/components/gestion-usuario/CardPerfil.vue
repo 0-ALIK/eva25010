@@ -11,7 +11,7 @@
             <h4>{{ usuario?.nombre || 'Nombre' }}</h4>
             <h4>{{ usuario?.apellido || 'Apellido' }}</h4>
         </article>
-        <h4>{{ usuario?.profesion.nombre || 'Profesión' }}</h4>
+        <h4>{{ usuario?.profesion?.nombre || 'Profesión' }}</h4>
 
         <article class="flex gap-4 ">
             <h4>{{usuario?.cargo || 'Cargo' }}</h4>

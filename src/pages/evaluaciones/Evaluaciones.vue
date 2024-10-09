@@ -211,7 +211,7 @@ async function onClickEnviar() {
 
 	if (respuesta) {
 		toast.showToast('success', 'Éxito', 'Evaluación enviada correctamente.');
-		router.push('/software/'+publicacion.value?.id);
+		router.push('/perfil/evaluaciones');
 		return;
 	}
 

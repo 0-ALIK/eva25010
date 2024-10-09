@@ -7,7 +7,7 @@
             <article class="flex flex-col gap-2 items-center ">
                 <small class="font-semibold">{{ props.categoria }}</small>
                 <i :class="icon"></i>
-                <p class="text-3xl font-bold">{{ props.valor }}</p>
+                <p class="text-3xl font-bold">{{ props.valor.toFixed(2) }}</p>
             </article>
 
         </section>  
@@ -19,7 +19,7 @@ import 'primeicons/primeicons.css'
 import Knob from 'primevue/knob';
 import { computed } from 'vue';
 
-const value = computed(()=> (props.valor*100)/5)
+const value = computed(()=> ((props.valor*100)/5).toFixed(2))
 const props = defineProps({
     titulo: String,
     categoria: String,

@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
+//import { AuthService } from "./services/gestion-usuario/auth";
+//import { useToastStore } from "./stores/shared/toast-store";
+//import { useAuthStore } from "./stores/gestion-usuario/auth-store";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -50,6 +53,7 @@ const router = createRouter({
                 {
                     path: "evaluar/:id",
                     component: () => import('./pages/evaluaciones/Evaluaciones.vue'),
+                    meta: { auth: true }
                 },
 
                 {
@@ -59,6 +63,7 @@ const router = createRouter({
                 {
                     path: "/resultados/:id",
                     component: () => import('./layouts/ResultadosLayout.vue'),
+                    meta: { auth: true },
                     children:[
                         {
                             path: "resultados",
@@ -71,8 +76,13 @@ const router = createRouter({
                             meta: { auth: true },
                         }
                     ]
+                },
+
+                {
+                    path: '/not-found',
+                    component: () => import('./pages/404.vue')
                 }
-            ]
+            ],
         },
         {
             path: "/login",
@@ -84,5 +94,26 @@ const router = createRouter({
         },
     ]
 });
+
+/* router.beforeEach(async (to, from, next) => {
+    if(to.matched.some(record => record.meta.auth)){
+
+        const authService = new AuthService();
+        const toast = useToastStore();
+
+        const response = await authService.verify();
+        
+        if(response){
+            next();
+        } else {
+            toast.showToast('info', 'Sesión expirada', 'Por favor inicie sesión nuevamente');
+            next("/login");
+        }
+
+        return;
+    }
+
+    next();
+}); */
 
 export default router;
