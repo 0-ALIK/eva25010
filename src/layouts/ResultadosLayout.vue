@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col h-screen">
         <div class="flex justify-end flex-row-reverse gap-4  h-full">
-            <section class="flex flex-col gap-2 ">
+            <section class="flex flex-col gap-2 w-full">
                 <Tabs  value="/resultados" class="w-fit">
                     <h1>Resultados</h1>
   

@@ -6,7 +6,7 @@
                 <Select v-model="selectedSubcategoria" :options="subcategorias" optionLabel="nombre" @change="onSelectedSubcategoria" placeholder="Subcategorías" class="w-full md:w-56" :disabled="!selectedCategoria" />          
         </form>
         </section>
-        <section class="flex gap-2 h-48">
+        <section class="flex gap-2 h-52">
             <CardPromedio :tipo="false" icon="pi pi-check p-2 bg-surface-800 rounded self-center" :valor="totalEvaluaciones.length" titulo="Evaluaciones Totales"/>
             <CardPromedio :tipo="true"  icon="pi pi-check p-2 bg-surface-800 rounded self-center" :valor="promedioFinal?.promedio" titulo="Promedio Final"/>
             <CardPromedioCategoria icon="pi pi-check p-2 bg-surface-800 rounded self-center" titulo="Promedio Categoria" :categoria="selectedCategoria?.nombre || 'NADA' " :valor="promedioFinalCategoria?.promedio || 0 "/>

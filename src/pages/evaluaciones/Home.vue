@@ -6,8 +6,9 @@
             <CardSubir class="border border-surface-800 rounded-xl p-1 bg-surface-900"/>
         </section>
 
+        <h2 class=" w-fit text-5xl text-center px-6 py-10 bg-primary-400 text-black font-medium rounded-lg items-center">Software mas populares</h2>
+
         <section class="bg-surface-900 border border-surface-800 rounded-lg px-4 pb-4">
-            <h4 class="font-semibold p-1"> Software´s mas populares </h4>
             <ul>
                 <li v-for="publicacion in publicacionesRecientes" :key="publicacion.id">
                     <CardSoftwarePopulares :software="publicacion" />
@@ -15,7 +16,7 @@
             </ul>
         </section>
 
-        <section class="flex h-full justify-center items-center gap-2 ">
+        <!-- <section class="flex h-full justify-center items-center gap-2 ">
             <h2 class=" w-fit text-5xl text-center px-6 py-10 bg-primary-400 text-black font-medium rounded-lg items-center">Evaluadores destacados</h2>
 
             <div class="flex gap-2 text-center">
@@ -26,7 +27,7 @@
                 </ul>
 
             </div>
-        </section>
+        </section> -->
 
         <section class="py-4 flex flex-col items-center">
             <h2 >Últimos softawre's añadidos</h2>
@@ -45,7 +46,6 @@ import { onMounted, ref } from 'vue';
 import CardEmpezar from '../../components/gestion-evaluaciones/CardEmpezar.vue';
 import CardSoftwarePopulares from '../../components/gestion-evaluaciones/CardSoftwarePopulares.vue';
 import CardSubir from '../../components/gestion-evaluaciones/CardSubir.vue';
-import CardUsuario from '../../components/gestion-usuario/CardUsuario.vue';
 import CardSoftware from '../../components/shared/CardSoftware.vue';
 import { Software } from '../../models/software';
 import { PublicacionesService } from '../../services/gestion-publicaciones/publicaciones';

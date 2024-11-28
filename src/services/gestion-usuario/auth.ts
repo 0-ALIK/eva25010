@@ -84,7 +84,7 @@ export class AuthService {
                 }
             );
             console.log('Respuesta completa de la API desde el servicio:', response);
-            return response.data?.usuarios?.[0] || null;
+            return response.data;
     
         } catch (error) {
             console.error('Error al actualizar el usuario:', error);

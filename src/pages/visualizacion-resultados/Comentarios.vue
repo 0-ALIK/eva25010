@@ -1,13 +1,9 @@
 <template>
-    <div>
-        <h1>comentta</h1>
+    <div class="w-fill">
+        <Message>No hay comentarios</Message>
     </div>
 </template>
 
 <script setup lang="ts">
-
+import Message from 'primevue/message';
 </script>
-
-<style scoped>
-
-</style>
