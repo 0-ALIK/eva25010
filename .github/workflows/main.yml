@@ -1,0 +1,12 @@
+name: mensaje en logs
+
+on:
+  push:
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest 
+
+    steps:
+      - name: say hellou
+        run: echo "Hello, World!"
